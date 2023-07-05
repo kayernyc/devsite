@@ -13,9 +13,11 @@
       "default",
       {
         "ignore": [
-          "text-underline-offset"
+          "text-underline-offset",
+          "backdrop-filter"
         ]
       }
-    ]
+    ],
+    "no-inline-styles": "off"
   }
 }
