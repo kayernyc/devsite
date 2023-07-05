@@ -7,11 +7,11 @@ export default async function Post({
 }) {
   const { html, title, date } = await getPostById(id)
   return (
-    <article>
+    <main>
       <h1>{title}</h1>
       <h4>{date}</h4>
       <div dangerouslySetInnerHTML={{ __html: html }} />
-    </article>
+    </main>
   )
 }
 
@@ -20,7 +20,7 @@ export async function generateStaticParams() {
 
   return posts.map(post => ({
     id: post.id,
-  }))
+  }));
 }
 
 export async function generateMetadata({
@@ -28,7 +28,7 @@ export async function generateMetadata({
 }: {
   params: { id: string }
 }) {
-  const { title } = await getPostById(id)
+  const { title } = await getPostById(id);
   return {
     title,
   }

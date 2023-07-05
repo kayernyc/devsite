@@ -31,5 +31,8 @@
     "shiki": "^0.14.3",
     "typescript": "5.0.4",
     "unified": "^10.1.2"
+  },
+  "devDependencies": {
+    "sass": "^1.63.6"
   }
 }
