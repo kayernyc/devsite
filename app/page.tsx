@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { getAllPosts } from "./api/getMdPosts";
 
+export const metadata = {
+  title: 'Activity collection',
+  description: 'life',
+}
+
 export default async function Home() {
   const posts = await getAllPosts();
 
