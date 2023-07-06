@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
 import { NavLink } from '@components/nav-link';
-import DarkLightMode from './dark-light-mode';
+import { DarkLightMode } from './dark-light-mode';
 
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
+  padding-right: 1rem;
   width: 100%;
 `
 
@@ -17,7 +18,7 @@ const NavHeader = styled.nav`
 
   ${StyledNavLink} {
     display: inline-block;
-    margin-inline: 1rem;
+    margin-inline-end: 1rem;
   }
 
   ${StyledNavLink}:first-of-type {
@@ -27,7 +28,7 @@ const NavHeader = styled.nav`
   }
 `
 
-const MainHeader = () => (
+export const MainHeader = () => (
   <Header>
     <NavHeader>
       <StyledNavLink href="/"><em>&#60;/&#62;</em></StyledNavLink>
@@ -37,5 +38,3 @@ const MainHeader = () => (
     <DarkLightMode />
   </Header>
 );
-
-export default MainHeader;

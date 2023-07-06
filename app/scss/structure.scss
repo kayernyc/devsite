@@ -18,18 +18,9 @@ body {
   display: flex;
   flex-direction: column;
 
-  > header.main-header {
-    padding: 1em 2em;
-  }
-
   > main {
     flex: 1 0 0;
-    padding: 0 2em;
-  }
-
-  > footer.main-footer {
-    border-top: 1px solid #ababab;
-    padding: 1em 2em;
+    padding: 0 1em;
   }
 }
 
@@ -48,6 +39,5 @@ ul li {
 }
 
 ul, ol {
-  padding: 0 0.9rem;
   list-style-position: inside;
 }

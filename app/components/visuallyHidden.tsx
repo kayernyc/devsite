@@ -12,7 +12,7 @@ const hiddenStyles = {
   border: 0,
 } as React.CSSProperties;
 
-const VisuallyHidden = ({ children, ...delegated }: {children: React.ReactNode}) => {
+export const VisuallyHidden = ({ children, ...delegated }: {children: React.ReactNode}) => {
   const [forceShow, setForceShow] = React.useState(false);
 
   React.useEffect(() => {
@@ -46,7 +46,5 @@ const VisuallyHidden = ({ children, ...delegated }: {children: React.ReactNode})
     </span>
   ) as JSX.Element;
 };
-
-export default VisuallyHidden;
 
 // CREDIT WHERE CREDIT IS DUE - LIFTED FROM JOSH COMEAU : https://www.joshwcomeau.com/snippets/react-components/visually-hidden/
