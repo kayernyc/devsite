@@ -4,6 +4,9 @@ dependencies:
   '@leafac/rehype-shiki':
     specifier: ^2.2.1
     version: 2.2.1(shiki@0.14.3)
+  '@styled-icons/boxicons-logos':
+    specifier: ^10.47.0
+    version: 10.47.0(react@18.2.0)(styled-components@6.0.2)
   '@types/node':
     specifier: 20.1.0
     version: 20.1.0
@@ -1747,6 +1750,29 @@ packages:
 
   /@rushstack/eslint-patch@1.3.0:
     resolution: {integrity: sha512-IthPJsJR85GhOkp3Hvp8zFOPK5ynKn6STyHa/WZpioK7E1aYDiBzpqQPrngc14DszIUkIrdd3k9Iu0XSzlP/1w==}
+    dev: false
+
+  /@styled-icons/boxicons-logos@10.47.0(react@18.2.0)(styled-components@6.0.2):
+    resolution: {integrity: sha512-eDZfiTjBth4MsCX83ZfiWIoYGU494NxZgAxyf7S0ky2ZRsJnq/Cs7crH4hKWUTaLvCo0XRJmLeA3Us2tZFiItg==}
+    peerDependencies:
+      react: '*'
+      styled-components: '*'
+    dependencies:
+      '@babel/runtime': 7.21.5
+      '@styled-icons/styled-icon': 10.7.0(react@18.2.0)(styled-components@6.0.2)
+      react: 18.2.0
+      styled-components: 6.0.2(react-dom@18.2.0)(react@18.2.0)
+    dev: false
+
+  /@styled-icons/styled-icon@10.7.0(react@18.2.0)(styled-components@6.0.2):
+    resolution: {integrity: sha512-SCrhCfRyoY8DY7gUkpz+B0RqUg/n1Zaqrr2+YKmK/AyeNfCcoHuP4R9N4H0p/NA1l7PTU10ZkAWSLi68phnAjw==}
+    peerDependencies:
+      react: '*'
+      styled-components: '>=4.1.0 <6'
+    dependencies:
+      '@babel/runtime': 7.21.5
+      react: 18.2.0
+      styled-components: 6.0.2(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
   /@swc/helpers@0.5.1:

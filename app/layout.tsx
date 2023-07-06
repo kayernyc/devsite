@@ -2,8 +2,9 @@
 
 import './scss/style.scss';
 
-import MainHeader from '@components/main-header';
+import { MainHeader } from '@components/main-header';
 import StyledComponentsRegistry from '@utilities/registry';
+import { MainFooter } from '@components/main-footer';
 
 export default function RootLayout({
   children,
@@ -14,11 +15,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
           <StyledComponentsRegistry>
-          <MainHeader />
-            {children}
-          <footer className='main-footer'>
-            I am foot!
-          </footer>
+            <MainHeader />
+              {children}
+            <MainFooter></MainFooter>
           </StyledComponentsRegistry>
       </body>
     </html>
