@@ -1,7 +1,7 @@
-import { Github, Instagram, Linkedin } from '@styled-icons/boxicons-logos';
-import styled from 'styled-components';
-import { NavLink } from './nav-link';
-import { VisuallyHidden } from './visuallyHidden';
+import { Github, Instagram, Linkedin } from "@styled-icons/boxicons-logos";
+import styled from "styled-components";
+import { NavLink } from "./nav-link";
+import { VisuallyHidden } from "./visuallyHidden";
 
 const StyledNavLink = styled(NavLink)`
   display: inline-block;
@@ -15,7 +15,7 @@ const StyledGithub = styled(Github)`
 
 const StyledInstagram = styled(Instagram)`
   height: 1.6rem;
-`
+`;
 
 const StyledLinkedin = styled(Linkedin)`
   height: 1.25rem;
@@ -31,24 +31,26 @@ const Footer = styled.footer`
     margin-left: 0;
     margin-top: 0.25rem;
   }
-  
+
   ${StyledNavLink}.last-navlink {
     margin-right: auto;
   }
-`
+`;
 
 export const MainFooter = () => (
   <Footer>
-    <StyledNavLink href="personal-details" className='last-navlink'>personal details</StyledNavLink>
-    <NavLink href='https://github.com/kayernyc'>
+    <StyledNavLink href="personal-details" className="last-navlink">
+      context
+    </StyledNavLink>
+    <NavLink href="https://github.com/kayernyc">
       <StyledGithub />
       <VisuallyHidden>Github account</VisuallyHidden>
     </NavLink>
-    <NavLink href='https://www.linkedin.com/in/gypsykat/'>
+    <NavLink href="https://www.linkedin.com/in/gypsykat/">
       <StyledLinkedin />
       <VisuallyHidden>LinkedIn account</VisuallyHidden>
     </NavLink>
-    <NavLink href='https://instagram.com/kathrinayer'>
+    <NavLink href="https://instagram.com/kathrinayer">
       <StyledInstagram />
       <VisuallyHidden>Instagram account</VisuallyHidden>
     </NavLink>
