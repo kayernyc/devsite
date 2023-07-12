@@ -39,7 +39,7 @@ const Footer = styled.footer`
 
 export const MainFooter = () => (
   <Footer>
-    <StyledNavLink href="personal-details" className="last-navlink">
+    <StyledNavLink href="context" className="last-navlink">
       context
     </StyledNavLink>
     <NavLink href="https://github.com/kayernyc">

@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { ContactForm } from '@/components/contact-elements/contact-form';
+import Link from 'next/link';
 
 const Context = () => (
   <main>
@@ -20,14 +21,16 @@ const Context = () => (
         computer languages. I'm always toying with the idea of writing a
         language, just to understand computing better.
       </p>
-      <p>Sadly I'm a person of few words.</p>
       <p>future list of things</p>
     </section>
     <section>
       <p>I'm also an occassionally practicing artist...</p>
       <Link href="https://kathrinayer.com">Drawing site</Link>
     </section>
+    <section>
+      <ContactForm />
+    </section>
   </main>
 );
 
-export default PersonalDetails;
+export default Context;
