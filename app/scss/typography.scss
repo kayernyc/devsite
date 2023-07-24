@@ -6,7 +6,6 @@
   --accent-font: 'Crimson Text', serif;
 }
 
-
 .base {
   font-family: var(--base-font);
 }
@@ -21,24 +20,30 @@
 
 body {
   font-family: var(--base-font);
-  letter-spacing: .1rem;
+  letter-spacing: 0.1rem;
 }
 
 em {
   font-weight: 600;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: #101010;
   font-weight: 300;
-  letter-spacing: .45rem;
+  letter-spacing: 0.45rem;
   line-height: 1.6em;
-  margin-block: .6rem;
+  margin-block: 0.6rem;
   text-transform: uppercase;
   text-rendering: optimizeLegibility;
 }
 
-pre, code {
+pre,
+code {
   font-family: var(--code-font);
 }
 
@@ -47,7 +52,8 @@ figcaption {
 }
 
 p {
-  margin-block: .4rem;
+  margin-block: 0.4rem;
+  max-width: 60ch;
 }
 
 blockquote {
@@ -58,9 +64,11 @@ blockquote {
   font-weight: 400;
   padding: 1rem;
 
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     font-family: inherit;
-    letter-spacing: .12rem;
+    letter-spacing: 0.12rem;
     text-transform: capitalize;
   }
 }
@@ -70,6 +78,7 @@ a {
   text-decoration: none;
 }
 
-u, ins {
+u,
+ins {
   text-underline-offset: 3px;
 }

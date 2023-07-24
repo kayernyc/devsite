@@ -2,9 +2,9 @@ import Link from "next/link";
 import { getAllPosts } from "./api/getMdPosts";
 
 export const metadata = {
-  title: 'Activity collection',
-  description: 'life',
-}
+  title: "Activity collection",
+  description: "life",
+};
 
 export default async function Home() {
   const posts = await getAllPosts();
@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <main>
       <ul>
-        {posts.map(({id, date, title}) => {
+        {posts.map(({ id, date, title }) => {
           return (
             <li key={id}>
               <Link href={`/posts/${id}`}>
@@ -23,5 +23,5 @@ export default async function Home() {
         })}
       </ul>
     </main>
-  )
+  );
 }
