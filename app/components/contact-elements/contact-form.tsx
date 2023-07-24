@@ -4,7 +4,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import { validate } from '@/utilities/validations';
 import InputComponent from './input-component';
-import ContactTextArea from './contact-message';
+import ContactTextArea from './contact-text-area';
+
+import { ContactFrom } from './InputLockup';
 
 interface IValues {
   name: string;
@@ -33,8 +35,6 @@ export const ContactForm = () => {
     }
     setErrors({});
     setLoading(true);
-
-    console.table(values);
 
     axios
       .post('/api/sendEmail/', values)
@@ -68,47 +68,48 @@ export const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <InputComponent
-        value={values.name}
-        onChange={handleChange}
-        id="name"
-        name="name"
-        label="Your Name"
-        placeholder="John Doe"
-        error={!!errors.name}
-        errorMessage={!!errors.name ? errors.name : ''}
-      />
-      <InputComponent
-        value={values.email}
-        onChange={handleChange}
-        id="email"
-        name="email"
-        label="Your Email"
-        placeholder="you@example.com"
-        error={!!errors.email}
-        errorMessage={!!errors.email ? errors.email : ''}
-      />
-      <ContactTextArea
-        value={values.message}
-        onChange={handleChange}
-        id="message"
-        name="message"
-        label="Your Message"
-        placeholder="Your message here..."
-        error={!!errors.message}
-        errorMessage={!!errors.message ? errors.message : ''}
-      />
-      <button type="submit" disabled={loading}>
-        {loading !== true ? 'SUBMIT' : <p>spinning!</p>}
-      </button>
-      <p className="mt-5 text-green-500 dark:text-green-500">
-        {success !== false ? (
-          messageState
-        ) : (
-          <span className="text-red-500 dark:text-red-500">{messageState}</span>
-        )}
-      </p>
-    </form>
+    <>
+      <h3>Contact me:</h3>
+      <ContactFrom onSubmit={handleSubmit}>
+        <section>
+          <InputComponent
+            value={values.name}
+            onChange={handleChange}
+            id="name"
+            name="name"
+            label="Your Name"
+            placeholder="John Doe"
+            error={!!errors.name}
+            errorMessage={!!errors.name ? errors.name : ''}
+          />
+          <InputComponent
+            value={values.email}
+            onChange={handleChange}
+            id="email"
+            name="email"
+            label="Your Email"
+            placeholder="you@example.com"
+            error={!!errors.email}
+            errorMessage={!!errors.email ? errors.email : ''}
+          />
+        </section>
+        <ContactTextArea
+          value={values.message}
+          onChange={handleChange}
+          id="message"
+          name="message"
+          label="Your Message"
+          placeholder="Your message here..."
+          error={!!errors.message}
+          errorMessage={!!errors.message ? errors.message : ''}
+        />
+        <article>
+          <button type="submit" disabled={loading}>
+            {loading !== true ? 'Send' : <p>spinning!</p>}
+          </button>
+        </article>
+        <p>{success !== false ? messageState : <span>{messageState}</span>}</p>
+      </ContactFrom>
+    </>
   );
 };

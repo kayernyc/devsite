@@ -21,7 +21,6 @@ const Context = () => (
         computer languages. I'm always toying with the idea of writing a
         language, just to understand computing better.
       </p>
-      <p>future list of things</p>
     </section>
     <section>
       <p>I'm also an occassionally practicing artist...</p>

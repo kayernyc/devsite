@@ -8,7 +8,7 @@ const Header = styled.header`
   justify-content: space-between;
   padding-right: 1rem;
   width: 100%;
-`
+`;
 
 const StyledNavLink = styled(NavLink)``;
 
@@ -26,13 +26,15 @@ const NavHeader = styled.nav`
     color: white;
     padding: 0.5rem;
   }
-`
+`;
 
 export const MainHeader = () => (
   <Header>
     <NavHeader>
-      <StyledNavLink href="/"><em>&#60;/&#62;</em></StyledNavLink>
-      <StyledNavLink href="/blog">Writing</StyledNavLink>
+      <StyledNavLink href="/">
+        <em>&#60;/&#62;</em>
+      </StyledNavLink>
+      <StyledNavLink href="/writing">Writing</StyledNavLink>
       <StyledNavLink href="/projects">Projects</StyledNavLink>
     </NavHeader>
     <DarkLightMode />

@@ -1,3 +1,5 @@
+import { InputLockup } from './InputLockup';
+
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   id: string;
   name: string;
@@ -6,6 +8,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   errorMessage?: string;
 }
+
 const InputComponent = ({
   id,
   name,
@@ -16,7 +19,7 @@ const InputComponent = ({
   ...props
 }: InputProps) => {
   return (
-    <div>
+    <InputLockup>
       <label htmlFor={id}>{label}</label>
       <input
         {...props}
@@ -26,7 +29,8 @@ const InputComponent = ({
         placeholder={placeholder}
       />
       {error && <p>*{errorMessage}</p>}
-    </div>
+    </InputLockup>
   );
 };
+
 export default InputComponent;

@@ -1,7 +1,7 @@
-import { Github, Instagram, Linkedin } from "@styled-icons/boxicons-logos";
-import styled from "styled-components";
-import { NavLink } from "./nav-link";
-import { VisuallyHidden } from "./visuallyHidden";
+import { Github, Instagram, Linkedin } from '@styled-icons/boxicons-logos';
+import styled from 'styled-components';
+import { NavLink } from './nav-link';
+import { VisuallyHidden } from './visuallyHidden';
 
 const StyledNavLink = styled(NavLink)`
   display: inline-block;
@@ -39,7 +39,7 @@ const Footer = styled.footer`
 
 export const MainFooter = () => (
   <Footer>
-    <StyledNavLink href="context" className="last-navlink">
+    <StyledNavLink href="/context" className="last-navlink">
       context
     </StyledNavLink>
     <NavLink href="https://github.com/kayernyc">
