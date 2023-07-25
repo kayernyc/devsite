@@ -1,12 +1,12 @@
 import { getAllAndById } from '@api/getMdPosts';
-const { getPostById, getAllPosts } = getAllAndById(['_posts']);
+const { getPostById, getAllPosts } = getAllAndById(['_projects']);
 
 export default async function Post({
-  params: { id },
+  params: { slug },
 }: {
-  params: { id: string };
+  params: { slug: string };
 }) {
-  const { html, title, date } = await getPostById(id);
+  const { html, title, date } = await getPostById(slug);
   return (
     <main>
       <h1>{title}</h1>
@@ -18,6 +18,7 @@ export default async function Post({
 
 export async function generateStaticParams() {
   const posts = await getAllPosts();
+
   return posts.map((post) => ({
     id: post.id,
   }));

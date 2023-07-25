@@ -1,5 +1,5 @@
-import fs from 'fs'
-import { join } from 'path'
+import fs from 'fs';
+import { join } from 'path';
 
 import matter from 'gray-matter';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
@@ -21,8 +21,6 @@ export type MDPost = {
   html: string;
 };
 
-let allPosts: MDPost[];
-
 const getParserPre = async () => {
   return unified()
     .use(remarkParse)
@@ -34,7 +32,7 @@ const getParserPre = async () => {
     .use(rehypeStringify)
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings, {
-      content: arg => ({
+      content: (arg) => ({
         type: 'element',
         tagName: 'a',
         properties: {
@@ -44,46 +42,93 @@ const getParserPre = async () => {
         children: [{ type: 'text', value: '#' }],
       }),
     });
-}
+};
 
 // memoize/cache the creation of the markdown parser, this sped up the
 // building of the blog from ~60s->~10s
 const getParser = () => {
   if (!parserPre) {
     parserPre = getParserPre().catch((err: Error) => {
-      parserPre = undefined
-      throw err
+      parserPre = undefined;
+      throw err;
     });
   }
   return parserPre;
-}
+};
 
-export const getPostById = async (id: string): Promise<MDPost> => {
-  const realId = id.replace(/\.md$/, '');
-  const fullPath = join('_posts', `${realId}.md`);
-  const { data, content } = matter(await fs.promises.readFile(fullPath, 'utf8'));
+const allSources = ['_posts', '_projects'];
 
-  const parser = await getParser();
-  const html = await parser.process(content);
+const postMap: Record<string, string> = {};
 
-  return {
-    ...data,
-    title: data.title,
-    id: realId,
-    date: `${data.date?.toISOString().slice(0, 10)}`,
-    html: html.value.toString(),
-  };
-}
-
-export const getAllPosts = async ():Promise<MDPost[]> => {
-  if (!allPosts) {
+const mapAllPosts = async () => {
+  for (let source of allSources) {
     const posts = await Promise.all(
-      fs.readdirSync('_posts').map(id => getPostById(id)),
-    )
-    allPosts = posts.sort((post1, post2) => (post1.date > post2.date ? -1 : 1));
+      fs.readdirSync(source).map((id: string) => [id, source])
+    );
+
+    posts.forEach(([id, source]) => {
+      const realId = id.replace(/\.md$/, '');
+      postMap[realId] = source;
+    });
+  }
+};
+
+const isMapReady = () => {
+  return Object.keys(postMap).length > 0;
+};
+
+export const getAllAndById = (source: string[] = allSources) => {
+  let allPosts: MDPost[];
+  if (!isMapReady()) {
+    mapAllPosts();
   }
 
-  return allPosts;
-}
+  const getPostById = async (id: string): Promise<MDPost> => {
+    if (!isMapReady()) {
+      await mapAllPosts();
+    }
+    const dirId = postMap[id];
+    const fullPath = join(dirId, `${id}.md`);
+
+    const { data, content } = matter(
+      await fs.promises.readFile(fullPath, 'utf8')
+    );
+
+    const parser = await getParser();
+    const html = await parser.process(content);
+
+    return {
+      ...data,
+      title: data.title,
+      id,
+      date: `${data.date?.toISOString().slice(0, 10)}`,
+      html: html.value.toString(),
+    };
+  };
+
+  const getAllPosts = async (): Promise<MDPost[]> => {
+    if (!isMapReady) {
+      await mapAllPosts();
+    }
+
+    if (!allPosts) {
+      const allPostIds = Object.entries(postMap)
+        .filter(([id, dirId]: [string, string]) => {
+          return source.includes(dirId);
+        })
+        .map(([id]) => id);
+
+      const posts = await Promise.all(allPostIds.map((id) => getPostById(id)));
+
+      allPosts = posts.sort((post1, post2) =>
+        post1.date > post2.date ? -1 : 1
+      );
+    }
+
+    return allPosts;
+  };
+
+  return { getPostById, getAllPosts };
+};
 
 // CREDIT WHERE CREDIT IS DUE - Based on an example by Colin Diesh : https://cmdcolin.github.io/

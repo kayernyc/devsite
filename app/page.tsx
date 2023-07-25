@@ -1,9 +1,11 @@
-import Link from "next/link";
-import { getAllPosts } from "./api/getMdPosts";
+import Link from 'next/link';
+import { getAllAndById } from '@api/getMdPosts';
+
+const { getAllPosts } = getAllAndById(['_posts', '_projects']);
 
 export const metadata = {
-  title: "Activity collection",
-  description: "life",
+  title: 'Activity collection',
+  description: 'life',
 };
 
 export default async function Home() {
