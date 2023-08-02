@@ -2,7 +2,6 @@ import fs from 'fs';
 import { join } from 'path';
 
 import matter from 'gray-matter';
-import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeShiki from '@leafac/rehype-shiki';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
@@ -18,6 +17,7 @@ export type MDPost = {
   title: any;
   id: string;
   date: string;
+  tags?: string[];
   html: string;
 };
 
@@ -30,18 +30,7 @@ const getParserPre = async () => {
       highlighter: await shiki.getHighlighter({ theme: 'poimandres' }),
     })
     .use(rehypeStringify)
-    .use(rehypeSlug)
-    .use(rehypeAutolinkHeadings, {
-      content: (arg) => ({
-        type: 'element',
-        tagName: 'a',
-        properties: {
-          href: '#' + arg.properties?.id,
-          style: 'color: purple; margin-right: 10px;',
-        },
-        children: [{ type: 'text', value: '#' }],
-      }),
-    });
+    .use(rehypeSlug);
 };
 
 // memoize/cache the creation of the markdown parser, this sped up the

@@ -4,12 +4,14 @@
   margin: 0;
 }
 
-html, body {
+html,
+body {
   background-color: #fefefe;
   color: #1d1d1d;
   font-family: 'Jost', sans-serif;
   font-weight: 200;
-  height: 100vh;
+  height: 100%;
+  max-height: 100%;
   max-width: 100vw;
   overflow-x: hidden;
 }
@@ -20,6 +22,10 @@ body {
 
   > main {
     flex: 1 0 0;
+    height: 100%;
+    overflow-y: scroll;
+    margin-left: 3rem;
+    width: 60ch;
     padding: 0 1em;
   }
 }
@@ -29,15 +35,16 @@ ul li {
   position: relative;
 
   &.bulletted::before {
-    content:"\2219";    /* escaped unicode character */
-    font-size:2.5em;    /* the default unicode bullet size is very small */
-    line-height:0;        /* kills huge line height on resized bullet */
-    position:absolute;  /* position bullet relative to list item */
-    top:.28em;           /* vertical align bullet position relative to list item */
-    left:-.4em;            /* position the bullet L- R relative to list item */
+    content: '\2219'; /* escaped unicode character */
+    font-size: 2.5em; /* the default unicode bullet size is very small */
+    line-height: 0; /* kills huge line height on resized bullet */
+    position: absolute; /* position bullet relative to list item */
+    top: 0.28em; /* vertical align bullet position relative to list item */
+    left: -0.4em; /* position the bullet L- R relative to list item */
   }
 }
 
-ul, ol {
+ul,
+ol {
   list-style-position: inside;
 }

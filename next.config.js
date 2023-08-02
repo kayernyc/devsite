@@ -2,6 +2,10 @@
 const path = require('path');
 
 const nextConfig = {
+  compiler: {
+    // Enables the styled-components SWC transform
+    styledComponents: true,
+  },
   experimental: {
     appDir: true,
     serverActions: true,
@@ -13,10 +17,10 @@ const nextConfig = {
     config.module.rules.push({
       test: /\.md$/,
       use: 'raw-loader',
-    })
-    return config
+    });
+    return config;
   },
-  output: 'build'
-}
+  output: 'standalone',
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

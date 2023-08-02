@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import './scss/style.scss';
 
@@ -9,17 +9,17 @@ import { MainFooter } from '@components/main-footer';
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body>
-          <StyledComponentsRegistry>
-            <MainHeader />
-              {children}
-            <MainFooter></MainFooter>
-          </StyledComponentsRegistry>
-      </body>
+      <StyledComponentsRegistry>
+        <body>
+          <MainHeader />
+          {children}
+          <MainFooter />
+        </body>
+      </StyledComponentsRegistry>
     </html>
-  )
+  );
 }

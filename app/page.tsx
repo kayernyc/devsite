@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { getAllAndById } from '@api/getMdPosts';
+import { MainPageLayout } from './components/main-page-layout';
 
 const { getAllPosts } = getAllAndById(['_posts', '_projects']);
 
@@ -10,20 +10,5 @@ export const metadata = {
 
 export default async function Home() {
   const posts = await getAllPosts();
-
-  return (
-    <main>
-      <ul>
-        {posts.map(({ id, date, title }) => {
-          return (
-            <li key={id}>
-              <Link href={`/posts/${id}`}>
-                {date} - {title}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </main>
-  );
+  return <MainPageLayout posts={posts} />;
 }
