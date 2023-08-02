@@ -15,7 +15,7 @@ export const NavLink = ({
   let segment = useSelectedLayoutSegment();
   let currentSegment = href == `/${segment ?? ''}`;
   let active = currentSegment
-    ? { borderBottom: `1px solid red;`, pointerEvent: 'none' }
+    ? { borderBottom: `1px solid red`, pointerEvent: 'none' }
     : undefined;
 
   return (

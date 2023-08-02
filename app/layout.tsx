@@ -13,13 +13,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <StyledComponentsRegistry>
+      <StyledComponentsRegistry>
+        <body>
           <MainHeader />
           {children}
           <MainFooter />
-        </StyledComponentsRegistry>
-      </body>
+        </body>
+      </StyledComponentsRegistry>
     </html>
   );
 }

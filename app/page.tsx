@@ -10,6 +10,5 @@ export const metadata = {
 
 export default async function Home() {
   const posts = await getAllPosts();
-
   return <MainPageLayout posts={posts} />;
 }
