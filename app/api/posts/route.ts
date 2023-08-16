@@ -23,8 +23,6 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   console.log({ request });
-  const body = await request.json();
-  console.log({ body });
 
   const db = await getDB();
   const results = await db.all(`SELECT * FROM Posts`).catch((err) => {
@@ -33,5 +31,5 @@ export async function GET(request: NextRequest) {
 
   db.close();
 
-  return new Response(JSON.stringify({ status: 201, message: results }));
+  return new Response(JSON.stringify({ status: 201, posts: results }));
 }

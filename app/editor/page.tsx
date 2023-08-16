@@ -1,8 +1,8 @@
 'use client';
 
 import Code from '@editorjs/code';
-import EditorJS, { BlockChangedEvent, OutputData } from '@editorjs/editorjs';
-import { useEffect, useRef, useState, MouseEvent } from 'react';
+import EditorJS, { OutputData } from '@editorjs/editorjs';
+import { useEffect, useRef, useState } from 'react';
 import Header from '@editorjs/header';
 import Image from '@editorjs/image';
 import List from '@editorjs/list';
@@ -10,7 +10,9 @@ import Quote from '@editorjs/quote';
 import MermaidTool from 'editorjs-mermaid';
 
 import styled from 'styled-components';
-import { RestMethod } from '@libs/restMethods';
+import { EditorHeader } from './editorHeader';
+
+// https://editorjs.io/blocks/#render
 
 const POST_URL = '/api/posts/';
 
@@ -97,7 +99,7 @@ const Editor = () => {
 
   return (
     <main>
-      I AM PERRY WHiTE
+      <EditorHeader />
       <EditorWrapper id="editorjs" ref={editorRef}></EditorWrapper>
       {editorReady && editorIsDirty && (
         <>
