@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextRequest, NextResponse } from 'next/server';
-import { RestMethod } from '../libs/restMethods';
-import { getDB } from '../libs/db';
+import { RestMethod } from '@libs/restMethods';
+import { getDB } from '@libs/db';
 
 const routeStrategyMap = {};
 

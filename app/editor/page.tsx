@@ -8,7 +8,7 @@ import Quote from '@editorjs/quote';
 import Code from '@editorjs/code';
 
 import styled from 'styled-components';
-import { RestMethod } from '@/api/libs/restMethods';
+import { RestMethod } from '@libs/restMethods';
 
 const POST_URL = '/api/posts/';
 
