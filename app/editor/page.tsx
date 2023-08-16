@@ -1,11 +1,13 @@
 'use client';
 
+import Code from '@editorjs/code';
 import EditorJS, { BlockChangedEvent } from '@editorjs/editorjs';
 import { useEffect, useRef, useState, MouseEvent } from 'react';
 import Header from '@editorjs/header';
+import Image from '@editorjs/image';
 import List from '@editorjs/list';
 import Quote from '@editorjs/quote';
-import Code from '@editorjs/code';
+import MermaidTool from 'editorjs-mermaid';
 
 import styled from 'styled-components';
 import { RestMethod } from '@libs/restMethods';
@@ -15,6 +17,16 @@ const POST_URL = '/api/posts/';
 const EditorWrapper = styled.section`
   border: 1px solid #aaaaaa;
 `;
+
+const isDirty = (el: HTMLDivElement) => {
+  const editor = el.getElementsByClassName(
+    'codex-editor__redactor'
+  )[0] as HTMLDivElement;
+  if (editor && editor.children) {
+    return editor.children?.length > 0;
+  }
+  return false;
+};
 
 const Editor = () => {
   const [editor, setEditor] = useState<EditorJS | undefined>(undefined);
@@ -29,22 +41,18 @@ const Editor = () => {
        * Id of Element that should contain the Editor
        */
       holder: 'editorjs',
-      onChange: (_, event: BlockChangedEvent) => {
-        if (event && event.detail?.target !== undefined) {
-          const target = event.detail.target;
-          setEditorIsDirty(!target.isEmpty);
-        } else {
-          console.log({ event });
+      onChange: () => {
+        if (editorRef.current) {
+          setEditorIsDirty(isDirty(editorRef.current));
         }
-
-        console.log(editorReady, editorIsDirty);
-        console.log("Now I know that Editor's content changed!", event);
       },
       tools: {
         code: Code,
         header: Header,
         list: List,
         quote: Quote,
+        mermaidTool: MermaidTool,
+        image: Image,
       },
     });
 
@@ -111,3 +119,27 @@ const Editor = () => {
 };
 
 export default Editor;
+
+/*
+{
+    "time": 1692212855483,
+    "blocks": [
+        {
+            "id": "YDzLm63DSl",
+            "type": "paragraph",
+            "data": {
+                "text": "hello"
+            }
+        },
+        {
+            "id": "xvTWTWZEqi",
+            "type": "header",
+            "data": {
+                "text": "HEAD",
+                "level": 2
+            }
+        }
+    ],
+    "version": "2.27.2"
+}
+*/
