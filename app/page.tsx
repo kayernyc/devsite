@@ -1,5 +1,5 @@
 import { getAllAndById } from '@api/getMdPosts';
-import { MainPageLayout } from './components/main-page-layout';
+import { MainPageLayout } from '@components/main-page-layout';
 
 const { getAllPosts } = getAllAndById(['_posts', '_projects']);
 

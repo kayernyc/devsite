@@ -1,8 +1,8 @@
-import type { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 import sendgrid from '@sendgrid/mail';
 
-export async function POST(request: NextResponse) {
+export async function POST(request: NextRequest) {
   if (
     process.env.SENDGRID_API_KEY &&
     process.env.TO_EMAIL &&

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { NavLink } from '@components/nav-link';
+import { NavLink } from './nav-link';
 import { DarkLightMode } from './dark-light-mode';
 
 const Header = styled.header`
