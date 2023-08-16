@@ -1,7 +1,7 @@
 'use client';
 
 import Code from '@editorjs/code';
-import EditorJS, { BlockChangedEvent } from '@editorjs/editorjs';
+import EditorJS, { BlockChangedEvent, OutputData } from '@editorjs/editorjs';
 import { useEffect, useRef, useState, MouseEvent } from 'react';
 import Header from '@editorjs/header';
 import Image from '@editorjs/image';
@@ -70,33 +70,24 @@ const Editor = () => {
     };
   }, []);
 
-  const savePostHandler = (evt: MouseEvent<HTMLButtonElement>) => {
+  const writeToPosts = async (data: OutputData) => {
+    await fetch(POST_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  };
+
+  const savePostHandler = (published: boolean) => {
     if (editor) {
       editor
         .save()
         .then(async (outputData) => {
-          await fetch(POST_URL, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(outputData),
-          });
+          const data = { ...outputData, published };
+          await writeToPosts(data);
           editor.clear();
-          console.log('Article data: ', outputData);
-        })
-        .catch((error) => {
-          console.warn('Saving failed: ', error);
-        });
-    }
-  };
-
-  const saveDraftHandler = (evt: MouseEvent<HTMLButtonElement>) => {
-    if (editor) {
-      editor
-        .save()
-        .then((outputData) => {
-          console.log('Article data: ', outputData);
         })
         .catch((error) => {
           console.warn('Saving failed: ', error);
@@ -110,8 +101,20 @@ const Editor = () => {
       <EditorWrapper id="editorjs" ref={editorRef}></EditorWrapper>
       {editorReady && editorIsDirty && (
         <>
-          <button onClick={saveDraftHandler}>save draft</button>
-          <button onClick={savePostHandler}>save post</button>
+          <button
+            onClick={() => {
+              savePostHandler(false);
+            }}
+          >
+            save draft
+          </button>
+          <button
+            onClick={() => {
+              savePostHandler(true);
+            }}
+          >
+            save post
+          </button>
         </>
       )}
     </main>
