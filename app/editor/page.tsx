@@ -20,21 +20,21 @@ const EditorWrapper = styled.section`
   border: 1px solid #aaaaaa;
 `;
 
-const isDirty = (el: HTMLDivElement) => {
-  const editor = el.getElementsByClassName(
-    'codex-editor__redactor'
-  )[0] as HTMLDivElement;
-  if (editor && editor.children) {
-    return editor.children?.length > 0;
-  }
-  return false;
-};
+const InputLabel = styled.label`
+  display: block;
+`;
+
+const TitleInput = styled.input`
+  font-family: serif;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem;
+`;
 
 const Editor = () => {
   const [editor, setEditor] = useState<EditorJS | undefined>(undefined);
-  const [editorIsDirty, setEditorIsDirty] = useState(false);
-  const [editorReady, setEditorReady] = useState(false);
+  const [savable, setSavable] = useState(false);
   const editorRef = useRef(null);
+  const titleRef = useRef<HTMLInputElement>(null);
 
   // on load to set up editor object
   useEffect(() => {
@@ -44,9 +44,7 @@ const Editor = () => {
        */
       holder: 'editorjs',
       onChange: () => {
-        if (editorRef.current) {
-          setEditorIsDirty(isDirty(editorRef.current));
-        }
+        isFormSavable();
       },
       tools: {
         code: Code,
@@ -61,7 +59,6 @@ const Editor = () => {
     neweditor.isReady
       .then(() => {
         setEditor(neweditor);
-        setEditorReady(true);
       })
       .catch((reason) => {
         console.warn(`Editor.js initialization failed because of ${reason}`);
@@ -71,6 +68,45 @@ const Editor = () => {
       neweditor.destroy();
     };
   }, []);
+
+  const isDirty = (el: HTMLDivElement) => {
+    const editor = el.getElementsByClassName(
+      'codex-editor__redactor'
+    )[0] as HTMLDivElement;
+    console.log({ editor }, editor.children, editor.children.length);
+    if (editor && editor.children) {
+      const state = Array.from(editor.children).some((el) => {
+        console.log({ el }, el.children);
+        const childrenWithText: HTMLElement[] = (
+          Array.from(el.children) as HTMLElement[]
+        ).filter((el) => el.innerText.length > 0);
+        return childrenWithText.length > 0;
+      });
+      return state;
+    }
+    return false;
+  };
+
+  const isFormSavable = () => {
+    if (!editorRef.current) {
+      setSavable(false);
+    } else {
+      const titleReady = (() => {
+        if (
+          titleRef.current?.value?.length &&
+          titleRef.current?.value?.length > 0
+        ) {
+          return true;
+        }
+        return false;
+      })();
+
+      const dirt = isDirty(editorRef.current);
+      console.log({ dirt });
+
+      setSavable(titleReady && dirt);
+    }
+  };
 
   const writeToPosts = async (data: OutputData) => {
     await fetch(POST_URL, {
@@ -82,12 +118,21 @@ const Editor = () => {
     });
   };
 
+  const selectPostToUpdate = (timeStamp: number): void => {
+    console.log('I heard the request in the parent', timeStamp);
+    return;
+  };
+
   const savePostHandler = (published: boolean) => {
     if (editor) {
       editor
         .save()
         .then(async (outputData) => {
-          const data = { ...outputData, published };
+          const data = {
+            ...outputData,
+            published,
+            title: titleRef.current?.value || 'default title',
+          };
           await writeToPosts(data);
           editor.clear();
         })
@@ -99,9 +144,18 @@ const Editor = () => {
 
   return (
     <main>
-      <EditorHeader />
+      <EditorHeader selectPostToUpdate={selectPostToUpdate} />
+      <InputLabel htmlFor="title-input">Title</InputLabel>
+      <TitleInput
+        type="text"
+        id="title-input"
+        maxLength={255}
+        ref={titleRef}
+        required
+        onChange={isFormSavable}
+      />
       <EditorWrapper id="editorjs" ref={editorRef}></EditorWrapper>
-      {editorReady && editorIsDirty && (
+      {savable && (
         <>
           <button
             onClick={() => {
@@ -124,27 +178,3 @@ const Editor = () => {
 };
 
 export default Editor;
-
-/*
-{
-    "time": 1692212855483,
-    "blocks": [
-        {
-            "id": "YDzLm63DSl",
-            "type": "paragraph",
-            "data": {
-                "text": "hello"
-            }
-        },
-        {
-            "id": "xvTWTWZEqi",
-            "type": "header",
-            "data": {
-                "text": "HEAD",
-                "level": 2
-            }
-        }
-    ],
-    "version": "2.27.2"
-}
-*/

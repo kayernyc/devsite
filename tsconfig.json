@@ -17,6 +17,7 @@
     ],
     "paths": {
       "@/*": ["./app/*"],
+      "@scss/*": ["./scss/*"],
       "@api/*": ["./app/api/*"],
       "@components/*": ["components/*"],
       "@rando/*": ["components/*"],

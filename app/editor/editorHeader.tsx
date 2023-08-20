@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 type Post = {
   timeStamp: number;
-  blob: unknown;
+  title: string;
 };
 
-export const EditorHeader = () => {
+interface EditorHeaderProps {
+  selectPostToUpdate: (timeStamp: number) => void;
+}
+
+export const EditorHeader = ({ selectPostToUpdate }: EditorHeaderProps) => {
   const [unpublishedPosts, setUnpublishedPosts] = useState<Post[]>([]);
   useEffect(() => {
-    fetch('./api/posts', {
+    fetch('./api/posts?timeStamp&title', {
       method: 'get',
     })
       .then((data) => data.json())
@@ -25,11 +29,21 @@ export const EditorHeader = () => {
   return (
     <header>
       <h2>I AM PERRY WHiTE</h2>
-      <select id="bob" title="unpublished posts">
-        {unpublishedPosts.map((post) => (
-          <option key={post.timeStamp}>{post.timeStamp}</option>
-        ))}
-      </select>
+      {unpublishedPosts && (
+        <select
+          id="bob"
+          title="unpublished posts"
+          onChange={(evt: ChangeEvent<HTMLSelectElement>) => {
+            console.log('I am called', evt.target.value);
+            selectPostToUpdate(3);
+          }}
+        >
+          <option value="">--edit an existing post--</option>
+          {unpublishedPosts.map((post) => (
+            <option key={post.timeStamp}>{post.title}</option>
+          ))}
+        </select>
+      )}
     </header>
   );
 };

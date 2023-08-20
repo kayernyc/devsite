@@ -22,7 +22,10 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  console.log({ request });
+  const { searchParams } = request.nextUrl;
+  if (searchParams) {
+    console.log('search params', searchParams.entries());
+  }
 
   const db = await getDB();
   const results = await db.all(`SELECT * FROM Posts`).catch((err) => {
