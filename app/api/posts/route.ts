@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDB } from '@libs/db';
+import { Client } from 'pg';
 
 const routeStrategyMap = {};
 
@@ -23,16 +24,46 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
-  if (searchParams) {
-    console.log('search params', searchParams.entries());
+  console.log('search params', searchParams.entries());
+  const conditions = {
+    columns: new Array<string>(),
+    clauses: new Array<string>(),
+  };
+  const searchTerms = Array.from(searchParams).reduce((acc, param) => {
+    const [term, match] = param;
+
+    if (match.length > 0) {
+      acc.clauses.push(`${term} is ${match}`);
+    } else {
+      acc.columns.push(term);
+    }
+
+    return acc;
+  }, conditions);
+
+  const columns = searchTerms.columns.join(', ');
+  let clauses: string = '';
+
+  if (searchTerms.clauses.length > 0) {
+    clauses = `WHERE ${searchTerms.clauses.join(' AND ')}`;
   }
 
-  const db = await getDB();
-  const results = await db.all(`SELECT * FROM Posts`).catch((err) => {
-    throw Error(err);
-  });
+  const queryString = `SELECT ${columns || '*'} FROM posts ${clauses}`;
+  const client = new Client(process.env.DB_URL);
 
-  db.close();
+  await client.connect();
 
-  return new Response(JSON.stringify({ status: 201, posts: results }));
+  try {
+    const results = await client.query(queryString);
+    return new Response(JSON.stringify({ status: 201, posts: results.rows }));
+  } catch (err) {
+    let message = 'Unknown Error';
+    if (err instanceof Error) {
+      message = err.message;
+    }
+    console.error('error executing query:', err);
+    return new Response(JSON.stringify({ status: 400, message }));
+  } finally {
+    client.end();
+  }
 }

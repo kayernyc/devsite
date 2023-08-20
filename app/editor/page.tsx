@@ -73,15 +73,14 @@ const Editor = () => {
     const editor = el.getElementsByClassName(
       'codex-editor__redactor'
     )[0] as HTMLDivElement;
-    console.log({ editor }, editor.children, editor.children.length);
     if (editor && editor.children) {
       const state = Array.from(editor.children).some((el) => {
-        console.log({ el }, el.children);
         const childrenWithText: HTMLElement[] = (
           Array.from(el.children) as HTMLElement[]
         ).filter((el) => el.innerText.length > 0);
         return childrenWithText.length > 0;
       });
+
       return state;
     }
     return false;
@@ -101,10 +100,9 @@ const Editor = () => {
         return false;
       })();
 
-      const dirt = isDirty(editorRef.current);
-      console.log({ dirt });
+      const dirty = isDirty(editorRef.current);
 
-      setSavable(titleReady && dirt);
+      setSavable(titleReady && dirty);
     }
   };
 
