@@ -13,9 +13,9 @@ import styled from 'styled-components';
 import { EditorHeader } from './editorHeader';
 import { v4 as uuidv4 } from 'uuid';
 
-// https://editorjs.io/blocks/#render
+import { POST_URL } from '@constants/urls';
 
-const POST_URL = '/api/posts/';
+// https://editorjs.io/blocks/#render
 
 interface EditorPostOutput extends OutputData {
   published: boolean;
@@ -37,6 +37,7 @@ const TitleInput = styled.input`
 `;
 
 const Editor = () => {
+  const [timeCreated, setTimeCreated] = useState<number | undefined>();
   const [editor, setEditor] = useState<EditorJS | undefined>(undefined);
   const [savable, setSavable] = useState(false);
   const editorRef = useRef(null);
@@ -124,9 +125,30 @@ const Editor = () => {
     });
   };
 
-  const selectPostToUpdate = (timeStamp: number): void => {
-    console.log('I heard the request in the parent', timeStamp);
-    return;
+  const selectPostToUpdate = async (post_id: string) => {
+    const results = await fetch(`${POST_URL}?post_id=${post_id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await results.json();
+    const postData = data.posts[0];
+
+    if (postData && editor) {
+      const { title, time_created, blocks } = postData;
+
+      setTimeCreated(time_created);
+
+      if (titleRef.current) {
+        titleRef.current.value = title;
+      }
+
+      editor.render({ blocks });
+    } else {
+      // handle error
+    }
   };
 
   const savePostHandler = (published: boolean) => {

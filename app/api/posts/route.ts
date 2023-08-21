@@ -65,6 +65,13 @@ export async function POST(request: NextRequest) {
   }
 }
 
+const termsMap: Record<string, (match: string) => string> = {
+  published: (match: string) => `published is ${match}`,
+  date_created: (match: string) => `date_created = ${match}`,
+  date_modified: (match: string) => `date_modified = ${match}`,
+  post_id: (match: string) => `post_id = '${match}'`,
+};
+
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
 
@@ -77,7 +84,7 @@ export async function GET(request: NextRequest) {
     const [term, match] = param;
 
     if (match.length > 0) {
-      acc.clauses.push(`${term} is ${match}`);
+      acc.clauses.push(termsMap[term](match));
     } else {
       acc.columns.push(term);
     }

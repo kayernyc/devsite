@@ -6,7 +6,7 @@ type Post = {
 };
 
 interface EditorHeaderProps {
-  selectPostToUpdate: (timeStamp: number) => void;
+  selectPostToUpdate: (post_id: string) => void;
 }
 
 export const EditorHeader = ({ selectPostToUpdate }: EditorHeaderProps) => {
@@ -33,12 +33,16 @@ export const EditorHeader = ({ selectPostToUpdate }: EditorHeaderProps) => {
           id="bob"
           title="unpublished posts"
           onChange={(evt: ChangeEvent<HTMLSelectElement>) => {
-            selectPostToUpdate(3);
+            if (evt.target?.value && typeof evt.target?.value === 'string') {
+              selectPostToUpdate(evt.target.value);
+            }
           }}
         >
           <option value="">--edit an existing post--</option>
           {unpublishedPosts.map((post, index) => (
-            <option key={`${post.post_id}-${index}`}>{post.title}</option>
+            <option value={post.post_id} key={`${post.post_id}-${index}`}>
+              {post.title}
+            </option>
           ))}
         </select>
       )}

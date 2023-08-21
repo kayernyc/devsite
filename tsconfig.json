@@ -17,11 +17,11 @@
     ],
     "paths": {
       "@/*": ["./app/*"],
-      "@scss/*": ["./scss/*"],
       "@api/*": ["./app/api/*"],
+      "@constants/*": ["./constants/*"],
       "@components/*": ["components/*"],
-      "@rando/*": ["components/*"],
       "@libs/*": ["libs/*"],
+      "@scss/*": ["./scss/*"],
       "@utilities/*": ["./app/utilities/*"]
     },
     "resolveJsonModule": true,
