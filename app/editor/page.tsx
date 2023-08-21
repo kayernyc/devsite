@@ -11,10 +11,16 @@ import MermaidTool from 'editorjs-mermaid';
 
 import styled from 'styled-components';
 import { EditorHeader } from './editorHeader';
+import { v4 as uuidv4 } from 'uuid';
 
 // https://editorjs.io/blocks/#render
 
 const POST_URL = '/api/posts/';
+
+interface EditorPostOutput extends OutputData {
+  published: boolean;
+  title: string;
+}
 
 const EditorWrapper = styled.section`
   border: 1px solid #aaaaaa;
@@ -106,13 +112,15 @@ const Editor = () => {
     }
   };
 
-  const writeToPosts = async (data: OutputData) => {
+  const writeToPosts = async (data: EditorPostOutput) => {
+    const postData = { ...data, post_id: uuidv4() };
+
     await fetch(POST_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(postData),
     });
   };
 
