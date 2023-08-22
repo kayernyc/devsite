@@ -15,8 +15,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { POST_URL } from '@constants/urls';
 
-// https://editorjs.io/blocks/#render
-
 interface EditorPostOutput extends OutputData {
   published: boolean;
   title: string;
@@ -81,6 +79,7 @@ const Editor = () => {
     const editor = el.getElementsByClassName(
       'codex-editor__redactor'
     )[0] as HTMLDivElement;
+
     if (editor && editor.children) {
       const state = Array.from(editor.children).some((el) => {
         const childrenWithText: HTMLElement[] = (
@@ -96,6 +95,7 @@ const Editor = () => {
 
   const isFormSavable = () => {
     if (!editorRef.current) {
+      console.warn('no current editor ref');
       setSavable(false);
     } else {
       const titleReady = (() => {
@@ -132,6 +132,17 @@ const Editor = () => {
     });
   };
 
+  const newPost = () => {
+    setPostId(undefined);
+    setTimeCreated(undefined);
+    if (editor) {
+      editor.clear();
+    }
+    if (titleRef.current) {
+      titleRef.current.value = '';
+    }
+  };
+
   const selectPostToUpdate = async (post_id: string) => {
     const results = await fetch(`${POST_URL}?post_id=${post_id}`, {
       method: 'GET',
@@ -142,8 +153,6 @@ const Editor = () => {
 
     const data = await results.json();
     const postData = data.posts[0];
-
-    console.log('from load', { postData });
 
     if (postData && editor) {
       const { title, time_created, blocks, post_id } = postData;
@@ -166,14 +175,13 @@ const Editor = () => {
       editor
         .save()
         .then(async (outputData) => {
-          console.log({ outputData });
           const data = {
             ...outputData,
             published,
             title: titleRef.current?.value || 'default title',
           };
           await writeToPosts(data);
-          editor.clear();
+          newPost();
         })
         .catch((error) => {
           console.warn('Saving failed: ', error);
@@ -201,16 +209,25 @@ const Editor = () => {
               savePostHandler(false);
             }}
           >
-            save draft
+            {postId ? 'update' : 'save'} draft
           </button>
           <button
             onClick={() => {
               savePostHandler(true);
             }}
           >
-            save post
+            {postId ? 'update' : 'save'} post
           </button>
         </>
+      )}
+      {postId && (
+        <button
+          onClick={() => {
+            newPost();
+          }}
+        >
+          new post (discard edits)
+        </button>
       )}
     </main>
   );

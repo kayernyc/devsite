@@ -12,7 +12,7 @@ interface EditorHeaderProps {
 export const EditorHeader = ({ selectPostToUpdate }: EditorHeaderProps) => {
   const [unpublishedPosts, setUnpublishedPosts] = useState<Post[]>([]);
   useEffect(() => {
-    fetch('./api/posts?post_id&title&published=false', {
+    fetch('./api/posts?post_id&title&published=FALSE', {
       method: 'get',
     })
       .then((data) => data.json())
@@ -27,7 +27,9 @@ export const EditorHeader = ({ selectPostToUpdate }: EditorHeaderProps) => {
 
   return (
     <header>
-      <h2>I AM PERRY WHiTE</h2>
+      <h2>
+        I AM PERRY WH<span style={{ textTransform: 'lowercase' }}>i</span>TE
+      </h2>
       {unpublishedPosts && (
         <select
           id="existing_posts"

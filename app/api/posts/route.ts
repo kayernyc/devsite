@@ -13,11 +13,12 @@ export type PostDataType = {
   title: string;
 };
 
-const termsMap: Record<string, (match: string) => string> = {
-  published: (match: string) => `published is ${match}`,
-  time_created: (match: string) => `time_created = ${match}`,
-  time_modified: (match: string) => `time_modified = ${match}`,
+const termsMap: Record<string, (match: any) => string> = {
+  published: (match: boolean) => `published = ${match}`,
+  time_created: (match: number) => `time_created = ${match}`,
+  time_modified: (match: number) => `time_modified = ${match}`,
   post_id: (match: string) => `post_id = '${match}'`,
+  title: (match: string) => `title = '${match}'`,
 };
 
 const postQuery = (postData: PostDataType) => {
@@ -44,9 +45,12 @@ const postQuery = (postData: PostDataType) => {
     )})`;
   } else {
     const updateValues = [
-      termsMap.time_modified(`${time_modified}`),
+      termsMap.time_modified(time_modified),
       `blocks = '${JSON.stringify(blocks)}'`,
+      termsMap.title(title),
+      termsMap.published(published),
     ];
+
     return `update posts set ${updateValues.join(
       ', '
     )} where post_id = '${post_id}'`;
