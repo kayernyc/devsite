@@ -38,6 +38,7 @@ const TitleInput = styled.input`
 
 const Editor = () => {
   const [timeCreated, setTimeCreated] = useState<number | undefined>();
+  const [postId, setPostId] = useState<string | undefined>();
   const [editor, setEditor] = useState<EditorJS | undefined>(undefined);
   const [savable, setSavable] = useState(false);
   const editorRef = useRef(null);
@@ -114,7 +115,13 @@ const Editor = () => {
   };
 
   const writeToPosts = async (data: EditorPostOutput) => {
-    const postData = { ...data, post_id: uuidv4() };
+    const postData = {
+      ...data,
+      post_id: postId || uuidv4(),
+      time_created: timeCreated || data.time || Date.now(),
+      time_modified: data.time || Date.now(),
+    };
+    console.log({ postData });
 
     await fetch(POST_URL, {
       method: 'POST',
@@ -136,10 +143,13 @@ const Editor = () => {
     const data = await results.json();
     const postData = data.posts[0];
 
-    if (postData && editor) {
-      const { title, time_created, blocks } = postData;
+    console.log('from load', { postData });
 
-      setTimeCreated(time_created);
+    if (postData && editor) {
+      const { title, time_created, blocks, post_id } = postData;
+
+      setTimeCreated(parseInt(time_created, 10));
+      setPostId(post_id);
 
       if (titleRef.current) {
         titleRef.current.value = title;
@@ -156,6 +166,7 @@ const Editor = () => {
       editor
         .save()
         .then(async (outputData) => {
+          console.log({ outputData });
           const data = {
             ...outputData,
             published,

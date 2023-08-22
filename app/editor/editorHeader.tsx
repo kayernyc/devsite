@@ -30,7 +30,7 @@ export const EditorHeader = ({ selectPostToUpdate }: EditorHeaderProps) => {
       <h2>I AM PERRY WHiTE</h2>
       {unpublishedPosts && (
         <select
-          id="bob"
+          id="existing_posts"
           title="unpublished posts"
           onChange={(evt: ChangeEvent<HTMLSelectElement>) => {
             if (evt.target?.value && typeof evt.target?.value === 'string') {

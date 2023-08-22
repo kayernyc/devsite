@@ -13,34 +13,54 @@ export type PostDataType = {
   title: string;
 };
 
-const insertPostQuery = (postData: PostDataType) => {
+const termsMap: Record<string, (match: string) => string> = {
+  published: (match: string) => `published is ${match}`,
+  time_created: (match: string) => `time_created = ${match}`,
+  time_modified: (match: string) => `time_modified = ${match}`,
+  post_id: (match: string) => `post_id = '${match}'`,
+};
+
+const postQuery = (postData: PostDataType) => {
   const { blocks, post_id, published, time_created, time_modified, title } =
     postData;
-  const terms = ['post_id', 'time_created', 'blocks', 'published', 'title'];
-  const values = [
-    `'${post_id}'`,
-    time_created,
-    `'${JSON.stringify(blocks)}'`,
-    published,
-    `'${title}'`,
-  ];
 
-  if (time_modified) {
-    terms.push('time_modified');
-    values.push(time_modified);
+  if (!time_modified || time_created === time_modified) {
+    const terms = ['post_id', 'time_created', 'blocks', 'published', 'title'];
+    const values = [
+      `'${post_id}'`,
+      time_created,
+      `'${JSON.stringify(blocks)}'`,
+      published,
+      `'${title}'`,
+    ];
+
+    if (time_modified) {
+      terms.push('time_modified');
+      values.push(time_modified);
+    }
+
+    return `insert into posts(${terms.join(', ')}) values(${values.join(
+      ', '
+    )})`;
+  } else {
+    const updateValues = [
+      termsMap.time_modified(`${time_modified}`),
+      `blocks = '${JSON.stringify(blocks)}'`,
+    ];
+    return `update posts set ${updateValues.join(
+      ', '
+    )} where post_id = '${post_id}'`;
   }
-
-  return `insert into posts(${terms.join(', ')}) values(${values.join(', ')})`;
 };
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
 
   // conform to type
-  const postData = { ...body, time_created: body.time };
+  const postData = { ...body, time_created: body.time_created };
   delete postData.time;
 
-  const queryString = insertPostQuery(postData);
+  const queryString = postQuery(postData);
 
   const client = new Client(process.env.DB_URL);
   await client.connect();
@@ -64,13 +84,6 @@ export async function POST(request: NextRequest) {
     client.end();
   }
 }
-
-const termsMap: Record<string, (match: string) => string> = {
-  published: (match: string) => `published is ${match}`,
-  date_created: (match: string) => `date_created = ${match}`,
-  date_modified: (match: string) => `date_modified = ${match}`,
-  post_id: (match: string) => `post_id = '${match}'`,
-};
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
