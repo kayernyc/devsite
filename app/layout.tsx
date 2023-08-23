@@ -1,10 +1,10 @@
 'use client';
 
-import './scss/style.scss';
+import '@scss/style.scss';
 
-import { MainHeader } from '../components/main-header';
+import { MainHeader } from '@components/main-header';
 import StyledComponentsRegistry from '@utilities/registry';
-import { MainFooter } from '../components/main-footer';
+import { MainFooter } from '@components/main-footer';
 
 export default function RootLayout({
   children,
