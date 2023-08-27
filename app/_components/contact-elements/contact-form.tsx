@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { useState } from 'react';
-import { validate } from '@/utilities/validations';
+import { validate } from '@/_utilities/validations';
 import InputComponent from './input-component';
 import ContactTextArea from './contact-text-area';
 

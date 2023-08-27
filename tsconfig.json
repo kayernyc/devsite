@@ -19,10 +19,11 @@
       "@/*": ["./app/*"],
       "@api/*": ["./app/api/*"],
       "@constants/*": ["./constants/*"],
-      "@components/*": ["components/*"],
-      "@libs/*": ["libs/*"],
-      "@scss/*": ["./scss/*"],
-      "@utilities/*": ["./app/utilities/*"]
+      "@components/*": ["./app/_components/*"],
+      "@libs/*": ["./app/_libs/*"],
+      "@scss/*": ["./app/_scss/*"],
+      "@utilities/*": ["app/_utilities/*"],
+      "@customTypes/*": ["app/_custom-types/*"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,

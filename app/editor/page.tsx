@@ -1,7 +1,7 @@
 'use client';
 
 import Code from '@editorjs/code';
-import EditorJS, { OutputData } from '@editorjs/editorjs';
+import EditorJS from '@editorjs/editorjs';
 import { useEffect, useRef, useState } from 'react';
 import Header from '@editorjs/header';
 import Image from '@editorjs/image';
@@ -14,11 +14,8 @@ import { EditorHeader } from './editorHeader';
 import { v4 as uuidv4 } from 'uuid';
 
 import { POST_URL } from '@constants/urls';
-
-interface EditorPostOutput extends OutputData {
-  published: boolean;
-  title: string;
-}
+import { EditorPostOutput } from '@customTypes/editorTypes';
+import { PostMetaData } from './postMetadata';
 
 const EditorWrapper = styled.section`
   border: 1px solid #aaaaaa;
@@ -35,8 +32,9 @@ const TitleInput = styled.input`
 `;
 
 const Editor = () => {
-  const [timeCreated, setTimeCreated] = useState<number | undefined>();
-  const [postId, setPostId] = useState<string | undefined>();
+  const [modifiedPost, setModifiedPost] = useState<
+    EditorPostOutput | undefined
+  >();
   const [editor, setEditor] = useState<EditorJS | undefined>(undefined);
   const [savable, setSavable] = useState(false);
   const editorRef = useRef(null);
@@ -114,11 +112,11 @@ const Editor = () => {
     }
   };
 
-  const writeToPosts = async (data: EditorPostOutput) => {
+  const writeToPosts = async (data: Partial<EditorPostOutput>) => {
     const postData = {
       ...data,
-      post_id: postId || uuidv4(),
-      time_created: timeCreated || data.time || Date.now(),
+      post_id: modifiedPost?.post_id || uuidv4(),
+      time_created: modifiedPost?.time_created || data.time || Date.now(),
       time_modified: data.time || Date.now(),
     };
     console.log({ postData });
@@ -133,8 +131,6 @@ const Editor = () => {
   };
 
   const newPost = () => {
-    setPostId(undefined);
-    setTimeCreated(undefined);
     if (editor) {
       editor.clear();
     }
@@ -157,8 +153,8 @@ const Editor = () => {
     if (postData && editor) {
       const { title, time_created, blocks, post_id } = postData;
 
-      setTimeCreated(parseInt(time_created, 10));
-      setPostId(post_id);
+      console.log({ postData });
+      setModifiedPost(postData);
 
       if (titleRef.current) {
         titleRef.current.value = title;
@@ -201,26 +197,35 @@ const Editor = () => {
         required
         onChange={isFormSavable}
       />
+      {modifiedPost && PostMetaData(modifiedPost)}
       <EditorWrapper id="editorjs" ref={editorRef}></EditorWrapper>
+      {savable &&
+        ((post?: EditorPostOutput) => {
+          const { post_id: postId = '', published = false } = post || {};
+
+          return published ? (
+            ''
+          ) : (
+            <button
+              onClick={() => {
+                savePostHandler(false);
+              }}
+            >
+              {postId ? 'update' : 'save'} draft
+            </button>
+          );
+        })(modifiedPost)}
+
       {savable && (
-        <>
-          <button
-            onClick={() => {
-              savePostHandler(false);
-            }}
-          >
-            {postId ? 'update' : 'save'} draft
-          </button>
-          <button
-            onClick={() => {
-              savePostHandler(true);
-            }}
-          >
-            {postId ? 'update' : 'save'} post
-          </button>
-        </>
+        <button
+          onClick={() => {
+            savePostHandler(true);
+          }}
+        >
+          {modifiedPost ? 'update' : 'save'} post
+        </button>
       )}
-      {postId && (
+      {modifiedPost && (
         <button
           onClick={() => {
             newPost();
