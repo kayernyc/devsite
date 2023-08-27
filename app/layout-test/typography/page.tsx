@@ -1,47 +1,67 @@
 const TypographyTest = () => {
   const pairings = [
-   ['jost', 'ovo'], 
-   ['jost', 'montserrat'], 
-   ['jost', 'jost'],
-   ['jost', 'workSans'], 
-   ['ovo', 'workSans'],
-   ['montserrat', 'libreBaskerville'],
-   ['ch-b', 'ch-r']
-  ]
+    ['jost', 'ovo'],
+    ['jost', 'montserrat'],
+    ['jost', 'jost'],
+    ['jost', 'workSans'],
+    ['ovo', 'workSans'],
+    ['montserrat', 'libreBaskerville'],
+    ['ch-b', 'ch-r'],
+  ];
 
-  return <main>
-    { pairings.map(([title, body]) => (
-      <section>
-        <h1 className={title}>Big title {title} 1234567890</h1>
-        <p className={body}>
-         {body} Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates veniam, voluptas laudantium quidem facere unde quos! Perspiciatis animi consequatur dolorem enim saepe expedita.
-        </p>
-        <h2 className={title}>Big title {title}  1234567890</h2>
-        <p className={body}>
-          {body} Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates veniam, voluptas laudantium quidem facere unde quos! Perspiciatis animi consequatur dolorem enim saepe expedita.
-        </p>
-        <h3 className={title}>Med title {title}  1234567890</h3>
-        <p className={body}>
-          {body} Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates veniam, voluptas laudantium quidem facere unde quos! Perspiciatis animi consequatur dolorem enim saepe expedita.
-        </p>
-        <h4 className={title}>Med title {title}  1234567890</h4>
-        <p className={body}>
-          {body} Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates veniam, voluptas laudantium quidem facere unde quos! Perspiciatis animi consequatur dolorem enim saepe expedita.
-        </p>
-        <h5 className={title}>small title {title} 1234567890</h5>
-        <p className={body}>
-          {body} Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates veniam, voluptas laudantium quidem facere unde quos! Perspiciatis animi consequatur dolorem enim saepe expedita.
-        </p>
-        <h6 className={title}>small title {title} 1234567890</h6>
-        <p className={body}>
-          {body} Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates veniam, voluptas laudantium quidem facere unde quos! Perspiciatis animi consequatur dolorem enim saepe expedita.
-        </p>
-      </section>
-    ))}
-  </main>
-}
+  return (
+    <main>
+      {pairings.map(([title, body], index) => (
+        <section key={`${title}-${index}`}>
+          <h1 className={title}>Big title {title} 1234567890</h1>
+          <p className={body}>
+            {body} Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates
+            veniam, voluptas laudantium quidem facere unde quos! Perspiciatis
+            animi consequatur dolorem enim saepe expedita.
+          </p>
+          <h2 className={title}>Big title {title} 1234567890</h2>
+          <p className={body}>
+            {body} Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates
+            veniam, voluptas laudantium quidem facere unde quos! Perspiciatis
+            animi consequatur dolorem enim saepe expedita.
+          </p>
+          <h3 className={title}>Med title {title} 1234567890</h3>
+          <p className={body}>
+            {body} Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates
+            veniam, voluptas laudantium quidem facere unde quos! Perspiciatis
+            animi consequatur dolorem enim saepe expedita.
+          </p>
+          <h4 className={title}>Med title {title} 1234567890</h4>
+          <p className={body}>
+            {body} Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates
+            veniam, voluptas laudantium quidem facere unde quos! Perspiciatis
+            animi consequatur dolorem enim saepe expedita.
+          </p>
+          <h5 className={title}>small title {title} 1234567890</h5>
+          <p className={body}>
+            {body} Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates
+            veniam, voluptas laudantium quidem facere unde quos! Perspiciatis
+            animi consequatur dolorem enim saepe expedita.
+          </p>
+          <h6 className={title}>small title {title} 1234567890</h6>
+          <p className={body}>
+            {body} Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Alias cumque aliquam mollitia tenetur dicta. Dolor voluptates
+            veniam, voluptas laudantium quidem facere unde quos! Perspiciatis
+            animi consequatur dolorem enim saepe expedita.
+          </p>
+        </section>
+      ))}
+    </main>
+  );
+};
 
-export default TypographyTest
+export default TypographyTest;
 
 /*
 

@@ -2,7 +2,7 @@
 
 import Code from '@editorjs/code';
 import EditorJS from '@editorjs/editorjs';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Header from '@editorjs/header';
 import Image from '@editorjs/image';
 import List from '@editorjs/list';
@@ -40,6 +40,27 @@ const Editor = () => {
   const editorRef = useRef(null);
   const titleRef = useRef<HTMLInputElement>(null);
 
+  const isFormSavable = useCallback(() => {
+    if (!editorRef.current) {
+      console.warn('no current editor ref');
+      setSavable(false);
+    } else {
+      const titleReady = (() => {
+        if (
+          titleRef.current?.value?.length &&
+          titleRef.current?.value?.length > 0
+        ) {
+          return true;
+        }
+        return false;
+      })();
+
+      const dirty = isDirty(editorRef.current);
+
+      setSavable(titleReady && dirty);
+    }
+  }, []);
+
   // on load to set up editor object
   useEffect(() => {
     const neweditor: EditorJS = new EditorJS({
@@ -71,7 +92,7 @@ const Editor = () => {
     return () => {
       neweditor.destroy();
     };
-  }, []);
+  }, [isFormSavable]);
 
   const isDirty = (el: HTMLDivElement) => {
     const editor = el.getElementsByClassName(
@@ -89,27 +110,6 @@ const Editor = () => {
       return state;
     }
     return false;
-  };
-
-  const isFormSavable = () => {
-    if (!editorRef.current) {
-      console.warn('no current editor ref');
-      setSavable(false);
-    } else {
-      const titleReady = (() => {
-        if (
-          titleRef.current?.value?.length &&
-          titleRef.current?.value?.length > 0
-        ) {
-          return true;
-        }
-        return false;
-      })();
-
-      const dirty = isDirty(editorRef.current);
-
-      setSavable(titleReady && dirty);
-    }
   };
 
   const writeToPosts = async (data: Partial<EditorPostOutput>) => {

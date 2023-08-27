@@ -1,4 +1,4 @@
-import { EditorPostOutput } from '@/_custom-types/editorTypes';
+import { EditorPostOutput } from '@customTypes/editorTypes';
 
 export const PostMetaData = (post: EditorPostOutput) => {
   const { published, time_created, time_modified } = post;

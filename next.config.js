@@ -10,6 +10,9 @@ const nextConfig = {
     appDir: true,
     serverActions: true,
   },
+  eslint: {
+    dirs: ['app'],
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
