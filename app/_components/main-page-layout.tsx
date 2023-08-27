@@ -1,10 +1,10 @@
 'use client';
 
-import { MDPost } from '@/api/getMdPosts';
 import Link from 'next/link';
+import { MDPost } from '@api/getMdPosts';
 
-import styled from 'styled-components';
 import { formatDate } from './date-tag';
+import styled from 'styled-components';
 
 const MainPage = styled.main``;
 

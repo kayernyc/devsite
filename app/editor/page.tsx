@@ -1,21 +1,20 @@
 'use client';
 
-import Code from '@editorjs/code';
-import EditorJS from '@editorjs/editorjs';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Code from '@editorjs/code';
+import { EditorHeader } from './editorHeader';
+import EditorJS from '@editorjs/editorjs';
+import { EditorPostOutput } from '@customTypes/editorTypes';
 import Header from '@editorjs/header';
 import Image from '@editorjs/image';
 import List from '@editorjs/list';
-import Quote from '@editorjs/quote';
 import MermaidTool from 'editorjs-mermaid';
+import { POST_URL } from '@constants/urls';
+import { PostMetaData } from './postMetadata';
+import Quote from '@editorjs/quote';
 
 import styled from 'styled-components';
-import { EditorHeader } from './editorHeader';
 import { v4 as uuidv4 } from 'uuid';
-
-import { POST_URL } from '@constants/urls';
-import { EditorPostOutput } from '@customTypes/editorTypes';
-import { PostMetaData } from './postMetadata';
 
 const EditorWrapper = styled.section`
   border: 1px solid #aaaaaa;

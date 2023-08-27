@@ -1,3 +1,4 @@
+import * as shiki from 'shiki';
 import fs from 'fs';
 import { join } from 'path';
 
@@ -8,7 +9,7 @@ import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
-import * as shiki from 'shiki';
+
 import { unified } from 'unified';
 
 let parserPre: ReturnType<typeof getParserPre> | undefined;

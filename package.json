@@ -6,8 +6,7 @@
     "dev": "next dev -p 8000",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "next": "next"
+    "lint": "next lint"
   },
   "dependencies": {
     "@editorjs/code": "^2.8.0",

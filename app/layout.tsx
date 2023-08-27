@@ -2,9 +2,9 @@
 
 import '@scss/style.scss';
 
+import { MainFooter } from '@components/main-footer';
 import { MainHeader } from '@components/main-header';
 import StyledComponentsRegistry from '@utilities/registry';
-import { MainFooter } from '@components/main-footer';
 
 export default function RootLayout({
   children,

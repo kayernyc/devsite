@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getDB } from '@libs/db';
 import { Client } from 'pg';
 
 const routeStrategyMap = {};
