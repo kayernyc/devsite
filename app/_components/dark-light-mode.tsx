@@ -1,16 +1,17 @@
-import styled from 'styled-components';
+import Image from 'next/image';
 import { VisuallyHidden } from './visuallyHidden';
+import styled from 'styled-components';
 
 const DLMButton = styled.button`
   border: none;
   background: transparent;
-`
+`;
 
 export const DarkLightMode = () => {
   return (
     <DLMButton>
-      <img src="/moon.png" width={20} alt='Moon'/>
+      <Image src="/moon.png" width={20} alt="Moon" />
       <VisuallyHidden>Dark/Light</VisuallyHidden>
     </DLMButton>
-  )
-}
+  );
+};

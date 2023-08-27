@@ -1,12 +1,12 @@
 'use client';
 
+import { ContactFrom } from './InputLockup';
+import ContactTextArea from './contact-text-area';
+import InputComponent from './input-component';
+
 import axios from 'axios';
 import { useState } from 'react';
-import { validate } from '@/_utilities/validations';
-import InputComponent from './input-component';
-import ContactTextArea from './contact-text-area';
-
-import { ContactFrom } from './InputLockup';
+import { validate } from '@utilities/validations';
 
 interface IValues {
   name: string;
