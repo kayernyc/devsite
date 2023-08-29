@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from 'react';
+import { ReactElement } from 'react-markdown/lib/react-markdown';
 
-type Post = {
+export type Post = {
   title: string;
   post_id: string;
 };
@@ -9,8 +10,11 @@ interface EditorHeaderProps {
   selectPostToUpdate: (post_id: string) => void;
 }
 
-export const EditorHeader = ({ selectPostToUpdate }: EditorHeaderProps) => {
+export const EditorHeader = ({
+  selectPostToUpdate,
+}: EditorHeaderProps): ReactElement => {
   const [unpublishedPosts, setUnpublishedPosts] = useState<Post[]>([]);
+
   useEffect(() => {
     fetch('./api/posts?post_id&title&published=FALSE', {
       method: 'get',

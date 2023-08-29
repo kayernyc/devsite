@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8000",
     "build": "next build",
+    "coverage": "vitest run --coverage",
+    "dev": "next dev -p 8000",
+    "lint": "next lint",
     "start": "next start",
-    "lint": "next lint"
+    "test": "vitest"
   },
   "dependencies": {
     "@editorjs/code": "^2.8.0",
@@ -42,6 +44,9 @@
   },
   "devDependencies": {
     "@editorjs/quote": "^2.5.0",
+    "@testing-library/jest-dom": "^6.1.2",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
     "@types/editorjs__header": "^2.6.0",
     "@types/node": "20.1.0",
     "@types/pg": "^8.10.2",
@@ -50,9 +55,12 @@
     "@types/sqlite3": "^3.1.8",
     "@types/styled-components": "^5.1.26",
     "@types/uuid": "^9.0.2",
+    "@vitejs/plugin-react": "^4.0.4",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
+    "jsdom": "^22.1.0",
     "sass": "^1.63.6",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "vitest": "^0.34.3"
   }
 }

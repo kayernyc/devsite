@@ -1,7 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { Client } from 'pg';
-
-const routeStrategyMap = {};
+import { NextRequest } from 'next/server';
 
 export type PostDataType = {
   blocks: JSON;
