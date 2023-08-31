@@ -19,9 +19,10 @@ export const EditorHeader = ({
     fetch('./api/posts?post_id&title&published=FALSE', {
       method: 'get',
     })
-      .then((data) => data.json())
+      .then((data: Response) => data.json())
       .then((data) => {
         const posts = data.posts as Post[];
+
         setUnpublishedPosts(data.posts || []);
       })
       .catch((err) => {
@@ -37,16 +38,23 @@ export const EditorHeader = ({
       {unpublishedPosts && (
         <select
           id="existing_posts"
-          title="unpublished posts"
           onChange={(evt: ChangeEvent<HTMLSelectElement>) => {
             if (evt.target?.value && typeof evt.target?.value === 'string') {
               selectPostToUpdate(evt.target.value);
             }
           }}
+          role="listbox"
+          title="unpublished posts"
         >
-          <option value="">--edit an existing post--</option>
+          <option value="" role="option">
+            --edit an existing post--
+          </option>
           {unpublishedPosts.map((post, index) => (
-            <option value={post.post_id} key={`${post.post_id}-${index}`}>
+            <option
+              value={post.post_id}
+              key={`${post.post_id}-${index}`}
+              role="option"
+            >
               {post.title}
             </option>
           ))}

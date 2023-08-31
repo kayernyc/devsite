@@ -16,7 +16,6 @@
       }
     ],
     "paths": {
-      "@/*": ["./app/*"],
       "@api/*": ["./app/api/*"],
       "@constants/*": ["./constants/*"],
       "@components/*": ["./app/_components/*"],
