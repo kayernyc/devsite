@@ -14,7 +14,7 @@ const nextConfig = {
     dirs: ['app'],
   },
   sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
+    includePaths: [path.join(__dirname, 'app/_scss')],
   },
   webpack: function (config) {
     config.module.rules.push({

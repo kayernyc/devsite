@@ -10,7 +10,7 @@ const DLMButton = styled.button`
 export const DarkLightMode = () => {
   return (
     <DLMButton>
-      <Image src="/moon.png" width={20} alt="Moon" />
+      <Image src="/moon.png" height={20} width={20} alt="Moon" />
       <VisuallyHidden>Dark/Light</VisuallyHidden>
     </DLMButton>
   );
