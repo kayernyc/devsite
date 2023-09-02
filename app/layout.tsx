@@ -4,7 +4,7 @@ import '@scss/style.scss';
 
 import { MainFooter } from '@components/main-footer';
 import { MainHeader } from '@components/main-header';
-import { SessionProvider } from 'next-auth/react';
+import { Providers } from './provider';
 import StyledComponentsRegistry from '@utilities/registry';
 
 export default function RootLayout({
@@ -15,13 +15,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <StyledComponentsRegistry>
-        <SessionProvider>
+        <Providers>
           <body>
             <MainHeader />
             {children}
             <MainFooter />
           </body>
-        </SessionProvider>
+        </Providers>
       </StyledComponentsRegistry>
     </html>
   );

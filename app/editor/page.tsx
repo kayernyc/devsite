@@ -1,10 +1,20 @@
+import { authOptions } from '@api/auth/[...nextauth]/route';
 import dynamic from 'next/dynamic';
+import { getServerSession } from 'next-auth/next';
 
 const EditorNoSSR = dynamic(() => import('./editorPage'), { ssr: false });
 
-const EditorPage = () => {
+const EditorPage = async () => {
+  const session = await getServerSession(authOptions);
+
   return (
     <>
+      {session && (
+        <div>
+          <p>Signed in as {session.user && session.user.name}</p>
+          <a href="/api/auth/signout">Sign out by link</a>
+        </div>
+      )}
       <EditorNoSSR />
     </>
   );
