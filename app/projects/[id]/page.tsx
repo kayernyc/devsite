@@ -2,11 +2,11 @@ import { getAllAndById } from '@api/getMdPosts';
 const { getPostById, getAllPosts } = getAllAndById(['_projects']);
 
 export default async function Post({
-  params: { slug },
+  params: { id },
 }: {
-  params: { slug: string };
+  params: { id: string };
 }) {
-  const { html, title, date } = await getPostById(slug);
+  const { html, title, date } = await getPostById(id);
   return (
     <main>
       <h1>{title}</h1>
