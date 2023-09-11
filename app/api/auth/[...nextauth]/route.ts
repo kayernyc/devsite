@@ -28,7 +28,6 @@ export const authOptions: NextAuthOptions = {
         // where to retrieve creds
         // const user = { id: '42', name: 'Dave', password: 'nextauth' };
         const user = { id: '231', name: 'me', password: 'blb' };
-
         if (
           credentials?.username === process.env.AUTH_NAME &&
           credentials?.password === process.env.AUTH_PASSWORD
@@ -43,10 +42,10 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async signIn(props) {
-      console.log({ props });
-      if (props.user.id === process.env.AUTH_USER) {
+      if (props.user.id === process.env.AUTH_USER || props.user) {
         return true;
       }
+
       return false;
     },
   },
