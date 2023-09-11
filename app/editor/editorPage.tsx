@@ -6,7 +6,7 @@ import { EditorHeader } from './editorHeader';
 import EditorJS from '@editorjs/editorjs';
 import { EditorPostOutput } from '@customTypes/editorTypes';
 import Header from '@editorjs/header';
-import Image from '@editorjs/image';
+import ImageTool from '@editorjs/image';
 import List from '@editorjs/list';
 import MermaidTool from 'editorjs-mermaid';
 import { POST_URL } from '@constants/urls';
@@ -79,7 +79,94 @@ const Editor = () => {
           list: List,
           quote: Quote,
           mermaidTool: MermaidTool,
-          image: Image,
+          image: {
+            class: ImageTool,
+            config: {
+              uploader: {
+                /**
+                 * Upload file to the server and return an uploaded image data
+                 * @param {File} file - file selected from the device or pasted by drag-n-drop
+                 * @return {Promise.<{success, file: {url}}>}
+                 */
+                uploadByFile(file: File) {
+                  return new Promise<Response | null>(
+                    async (resolve, reject) => {
+                      // do some async task
+                      let base64File: string = '';
+                      const reader = new FileReader();
+                      reader.readAsBinaryString(file);
+
+                      reader.onload = async (event) => {
+                        if (
+                          event.target &&
+                          typeof event.target.result === 'string'
+                        ) {
+                          base64File = `data:${file.type};base64,${window.btoa(
+                            event.target.result
+                          )}`;
+                          const result = await fetch(
+                            'http://localhost:8000/api/image',
+                            {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify({
+                                fileName: file.name,
+                                fileType: file.type,
+                                fileURI: base64File,
+                              }),
+                            }
+                          );
+
+                          resolve(result);
+                        }
+                      };
+                    }
+                  ).then(async (data) => {
+                    if (data instanceof Response) {
+                      const {
+                        file: { url },
+                      } = await data.json();
+
+                      return {
+                        success: 1,
+                        file: {
+                          url,
+                        },
+                      };
+                    }
+                  });
+                },
+
+                /**
+                 * Send URL-string to the server. Backend should load image by this URL and return an uploaded image data
+                 * @param {string} url - pasted image URL
+                 * @return {Promise.<{success, file: {url}}>}
+                 */
+                uploadByUrl(url: unknown) {
+                  // TODO: modify this and BE to handle urls
+                  return fetch('http://localhost:8000/api/image', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      Accept: 'application/json',
+                    },
+                    body: JSON.stringify({ payload: url }),
+                  }).then(() => {
+                    return {
+                      success: 1,
+                      file: {
+                        url: 'https://codex.so/upload/redactor_images/o_e48549d1855c7fc1807308dd14990126.jpg',
+                        // any other image data you want to store, such as width, height, color, extension, etc
+                      },
+                    };
+                  });
+                },
+              },
+              actions: [],
+            },
+          },
         },
       });
       neweditor.isReady
@@ -120,7 +207,6 @@ const Editor = () => {
       time_created: modifiedPost?.time_created || data.time || Date.now(),
       time_modified: data.time || Date.now(),
     };
-    console.log({ postData });
     await fetch(POST_URL, {
       method: 'POST',
       headers: {
@@ -152,8 +238,6 @@ const Editor = () => {
 
     if (postData && editor) {
       const { title, time_created, blocks, post_id } = postData;
-
-      console.log({ postData });
       setModifiedPost(postData);
 
       if (titleRef.current) {
