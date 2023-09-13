@@ -1,5 +1,6 @@
 import * as shiki from 'shiki';
 import fs from 'fs';
+import { getDBPosts } from './getDBPosts';
 import { join } from 'path';
 
 import matter from 'gray-matter';
@@ -9,7 +10,6 @@ import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
-
 import { unified } from 'unified';
 
 let parserPre: ReturnType<typeof getParserPre> | undefined;
@@ -68,6 +68,7 @@ const isMapReady = () => {
 };
 
 export const getAllAndById = (source: string[] = allSources) => {
+  getDBPosts();
   let allPosts: MDPost[];
   if (!isMapReady()) {
     mapAllPosts();
