@@ -87,7 +87,7 @@ export const getAllAndById = (source: string[] = allSources) => {
       title: data.title,
       date: new Date(data.date),
       html: html.value.toString(),
-      tags: data.tags,
+      post_tags: data.tags,
     };
   };
 
@@ -113,7 +113,7 @@ export const getAllAndById = (source: string[] = allSources) => {
 
     return {
       post_id: id,
-      tags: data.tags || Array<string>(),
+      post_tags: data.tags || Array<string>(),
       title: data.title,
       date: new Date(data.date).getTime(),
       url,

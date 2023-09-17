@@ -53,7 +53,7 @@ const tagDictionary = {
 };
 
 export const processPost = (rawPost: PublishedPostRaw): PublishedPost => {
-  const { blocks, title, time_created } = rawPost;
+  const { blocks, title, time_created, post_tags } = rawPost;
 
   const dateCreated = new Date(parseInt(time_created, 10));
 
@@ -65,25 +65,25 @@ export const processPost = (rawPost: PublishedPostRaw): PublishedPost => {
     return acc;
   }, '');
 
-  /*
-      title
-      date (as string)
-      tags/future
-      html
-    */
-
   return {
     title,
     date: new Date(dateCreated),
     html,
-    tags: new Array<string>(),
+    post_tags: post_tags || new Array<string>(),
   };
 };
 
 export const getDBPostById = async (
   id: string
 ): Promise<PublishedPost | undefined> => {
-  const queryString = `select * from posts where post_id = '${id}' limit 1`;
+  // const queryString = `select * from posts where post_id = '${id}' limit 1`;
+  const queryString = `select posts.*, ARRAY_AGG(tags.tag_name) as post_tags
+	from posts
+	left join posts_tags on posts.post_id = posts_tags.post_key
+	left join tags on posts_tags.tag_key = tags.key_id
+	where posts.post_id = '${id}'
+	GROUP BY posts.post_id`;
+
   const client = new Client(process.env.DB_URL);
   await client.connect();
 
@@ -131,7 +131,7 @@ export const getDBPosts = async (): Promise<
         return {
           date,
           post_id,
-          tags: [],
+          post_tags: [],
           title,
           url: encodeURIComponent(
             title.toLowerCase().replace(/[^a-z0-9 _-]+/gi, '-')
