@@ -38,14 +38,14 @@ export const MainPageLayout = ({ posts }: { posts: PostListing[] }) => {
   return (
     <MainPage>
       <ul>
-        {posts.map(({ date, url: id, title, tags }, index) => {
-          let Tag = tags?.includes('post') ? PostLi : ProjectLi;
+        {posts.map(({ date, url: id, title, post_tags }, index) => {
+          let Tag = post_tags?.includes('post') ? PostLi : ProjectLi;
           return (
             <Tag key={id}>
               <Link href={`/posts/${id}`}>
                 <strong>{title}</strong>
                 {formatDate(date)}
-                {displayTags(tags)}
+                {displayTags(post_tags)}
                 {/* {index === 0 ? teaserText(html) : ''} */}
               </Link>
             </Tag>

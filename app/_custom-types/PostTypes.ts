@@ -27,6 +27,7 @@ export type PublishedPostRaw = {
   blocks: Block[];
   published: boolean;
   title: string;
+  post_tags?: string[];
 };
 
 export const isPublishedPostRaw = (x: unknown): x is PublishedPostRaw => {
@@ -47,7 +48,7 @@ export type PublishedPost = {
   title: string;
   date: Date;
   html: string;
-  tags: string[];
+  post_tags: string[];
 };
 
 export enum SourceTypes {
@@ -59,7 +60,7 @@ export type PostListing = {
   date: number;
   id: string;
   source: SourceTypes;
-  tags: string[];
+  post_tags: string[];
   title: string;
   url: string;
 };
@@ -69,5 +70,5 @@ export type PostMinimalListing = {
   post_id: string;
   title: string;
   url: string;
-  tags: string[];
+  post_tags: string[];
 };

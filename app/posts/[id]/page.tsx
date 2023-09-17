@@ -12,11 +12,13 @@ export default async function Post({
 }) {
   const post = await getPostById(id);
   if (post) {
-    const { html, title, date } = post;
+    const { html, title, date, post_tags } = post;
+
     return (
       <main>
         <h1>{title}</h1>
         <h4>{date.toLocaleString()}</h4>
+        <h4>{post_tags.join(', ')}</h4>
         <div dangerouslySetInnerHTML={{ __html: html }} />
       </main>
     );
