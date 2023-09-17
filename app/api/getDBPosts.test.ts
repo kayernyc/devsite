@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
-import { PublishedPostRaw, processPost } from './getDBPosts';
 import { describe, expect, test } from 'vitest';
+import { PublishedPostRaw } from '@customTypes/PostTypes';
+import { processPost } from './getDBPosts';
 
 describe('processPosts', () => {
   test('transforms simple post', () => {

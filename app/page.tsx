@@ -1,12 +1,11 @@
 import { MainPageLayout } from '@components/main-page-layout';
-import { getAllAndById } from '@api/getMdPosts';
-
-const { getAllPosts } = getAllAndById(['_posts', '_projects']);
+import { getAllAndById as getAllAndByIdTest } from '@api/getPosts';
 
 export const metadata = {
   title: 'Activity collection',
   description: 'life',
 };
+const { getAllPosts } = getAllAndByIdTest();
 
 export default async function Home() {
   const posts = await getAllPosts();

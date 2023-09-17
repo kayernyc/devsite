@@ -1,27 +1,18 @@
 import {
+  Block,
+  PostMinimalListing,
+  PublishedPost,
+  PublishedPostRaw,
+  isPublishedPostRaw,
+} from '@customTypes/PostTypes';
+import {
   BlockData,
-  BlockType,
   HeaderBlockData,
   ListBlockData,
   QuoteBlockData,
   blockTypeGuard,
 } from './_postHydrators/DBPostTypes';
 import { Client } from 'pg';
-
-type Block = {
-  data: BlockData | HeaderBlockData | ListBlockData | QuoteBlockData;
-  id: string;
-  type: BlockType;
-};
-
-export type PublishedPostRaw = {
-  post_id: string;
-  time_created: string;
-  time_modified?: string | null;
-  blocks: Block[];
-  published: boolean;
-  title: string;
-};
 
 const tagDictionary = {
   paragraph: (data: BlockData, id: string) => `<p key=${id}>${data.text}</p>`,
@@ -43,8 +34,6 @@ const tagDictionary = {
       </${tag}>`;
     }
 
-    console.log('HEREKKKKKK');
-
     return '';
   },
   quote: (data: BlockData, id: string) => {
@@ -63,8 +52,7 @@ const tagDictionary = {
   },
 };
 
-export const processPost = (rawPost: PublishedPostRaw) => {
-  console.log({ rawPost });
+export const processPost = (rawPost: PublishedPostRaw): PublishedPost => {
   const { blocks, title, time_created } = rawPost;
 
   const dateCreated = new Date(parseInt(time_created, 10));
@@ -80,26 +68,76 @@ export const processPost = (rawPost: PublishedPostRaw) => {
   /*
       title
       date (as string)
+      tags/future
       html
     */
 
   return {
     title,
-    date: `${dateCreated.toISOString().slice(0, 10)}`,
+    date: new Date(dateCreated),
     html,
+    tags: new Array<string>(),
   };
 };
 
-export const getDBPosts = async () => {
+export const getDBPostById = async (
+  id: string
+): Promise<PublishedPost | undefined> => {
+  const queryString = `select * from posts where post_id = '${id}' limit 1`;
   const client = new Client(process.env.DB_URL);
   await client.connect();
 
-  const queryString = `select * from posts where published is true`;
+  try {
+    const results = (await client.query(queryString)).rows[0];
+
+    if (isPublishedPostRaw(results)) {
+      return processPost(results);
+    } else {
+      throw Error(`${id} did not return valid post object`);
+    }
+  } catch (err) {
+    console.warn(err);
+  } finally {
+    client.end();
+  }
+};
+
+export const getDBPosts = async (): Promise<
+  PostMinimalListing[] | undefined
+> => {
+  const client = new Client(process.env.DB_URL);
+  await client.connect();
+
+  const queryString = `SELECT post_id, title, time_created, time_modified FROM posts WHERE published = true ORDER BY time_created DESC`;
 
   try {
     const results = await client.query(queryString);
-    const posts = results.rows.map((post: PublishedPostRaw) =>
-      processPost(post)
+    return results.rows.map(
+      ({
+        post_id,
+        title,
+        time_created,
+        time_modified = '0',
+      }: {
+        post_id: string;
+        title: string;
+        time_created: string;
+        time_modified: string;
+      }) => {
+        const dc = parseInt(time_created, 10);
+        const dm = parseInt(time_modified, 10) || 0;
+
+        const date = dc > dm ? dc : dm;
+        return {
+          date,
+          post_id,
+          tags: [],
+          title,
+          url: encodeURIComponent(
+            title.toLowerCase().replace(/[^a-z0-9 _-]+/gi, '-')
+          ),
+        };
+      }
     );
   } catch (err) {
     console.warn(err);
