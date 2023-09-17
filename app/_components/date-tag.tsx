@@ -12,8 +12,8 @@ const DateTag = styled.aside`
   }
 `;
 
-export const formatDate = (dateString: string) => {
-  const PostDate = new Date(dateString);
+export const formatDate = (dateNumber: number) => {
+  const PostDate = new Date(dateNumber);
   return (
     <DateTag>
       {PostDate.toLocaleString('default', { month: 'long' })}{' '}

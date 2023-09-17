@@ -1,9 +1,9 @@
 'use client';
 
+import EditorJS, { BlockToolConstructable } from '@editorjs/editorjs';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Code from '@editorjs/code';
 import { EditorHeader } from './editorHeader';
-import EditorJS from '@editorjs/editorjs';
 import { EditorPostOutput } from '@customTypes/editorTypes';
 import Header from '@editorjs/header';
 import ImageTool from '@editorjs/image';
@@ -75,7 +75,14 @@ const Editor = () => {
         },
         tools: {
           code: Code,
-          header: Header,
+          header: {
+            class: Header as unknown as BlockToolConstructable,
+            config: {
+              placeholder: 'Enter a header',
+              levels: [2, 3, 4],
+              defaultLevel: 2,
+            },
+          },
           list: List,
           quote: Quote,
           mermaidTool: MermaidTool,

@@ -1,4 +1,5 @@
 import * as shiki from 'shiki';
+import { PostMinimalListing, PublishedPost } from '@customTypes/PostTypes';
 import fs from 'fs';
 import { join } from 'path';
 
@@ -9,18 +10,9 @@ import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
-
 import { unified } from 'unified';
 
 let parserPre: ReturnType<typeof getParserPre> | undefined;
-
-export type MDPost = {
-  title: any;
-  id: string;
-  date: string;
-  tags?: string[];
-  html: string;
-};
 
 const getParserPre = async () => {
   return unified()
@@ -48,7 +40,10 @@ const getParser = () => {
 
 const allSources = ['_posts', '_projects'];
 
+// url
 const postMap: Record<string, string> = {};
+
+const titleMap: Record<string, [string, string]> = {};
 
 const mapAllPosts = async () => {
   for (let source of allSources) {
@@ -68,12 +63,35 @@ const isMapReady = () => {
 };
 
 export const getAllAndById = (source: string[] = allSources) => {
-  let allPosts: MDPost[];
+  let allPosts: PostMinimalListing[];
   if (!isMapReady()) {
     mapAllPosts();
   }
 
-  const getPostById = async (id: string): Promise<MDPost> => {
+  const getPostById = async (id: string): Promise<PublishedPost> => {
+    if (!isMapReady()) {
+      await mapAllPosts();
+    }
+    const [mdPath, dirId] = titleMap[id];
+
+    const fullPath = join(dirId, `${mdPath}.md`);
+
+    const { data, content } = matter(
+      await fs.promises.readFile(fullPath, 'utf8')
+    );
+
+    const parser = await getParser();
+    const html = await parser.process(content);
+
+    return {
+      title: data.title,
+      date: new Date(data.date),
+      html: html.value.toString(),
+      tags: data.tags,
+    };
+  };
+
+  const postByIdForMap = async (id: string): Promise<PostMinimalListing> => {
     if (!isMapReady()) {
       await mapAllPosts();
     }
@@ -87,20 +105,22 @@ export const getAllAndById = (source: string[] = allSources) => {
     const parser = await getParser();
     const html = await parser.process(content);
 
+    const url = encodeURIComponent(
+      data.title.toLowerCase().replace(/[^a-z0-9 _-]+/gi, '-')
+    );
+
+    titleMap[url] = [id, dirId];
+
     return {
-      ...data,
+      post_id: id,
+      tags: data.tags || Array<string>(),
       title: data.title,
-      id,
-      date: `${data.date?.toISOString().slice(0, 10)}`,
-      html: html.value.toString(),
+      date: new Date(data.date).getTime(),
+      url,
     };
   };
 
-  const getAllPosts = async (): Promise<MDPost[]> => {
-    if (!isMapReady) {
-      await mapAllPosts();
-    }
-
+  const sortAllPosts = async () => {
     if (!allPosts) {
       const allPostIds = Object.entries(postMap)
         .filter(([id, dirId]: [string, string]) => {
@@ -108,11 +128,27 @@ export const getAllAndById = (source: string[] = allSources) => {
         })
         .map(([id]) => id);
 
-      const posts = await Promise.all(allPostIds.map((id) => getPostById(id)));
+      const posts = await Promise.all(
+        allPostIds
+          .map((id) => postByIdForMap(id))
+          .map((thing) => {
+            return thing;
+          })
+      );
 
       allPosts = posts.sort((post1, post2) =>
         post1.date > post2.date ? -1 : 1
       );
+    }
+  };
+
+  const getAllPosts = async (): Promise<PostMinimalListing[]> => {
+    if (!isMapReady) {
+      await mapAllPosts();
+    }
+
+    if (!allPosts) {
+      await sortAllPosts();
     }
 
     return allPosts;

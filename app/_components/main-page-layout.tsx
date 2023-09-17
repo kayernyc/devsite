@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { MDPost } from '@api/getMdPosts';
-
+import { PostListing } from '@customTypes/PostTypes';
 import { formatDate } from './date-tag';
+
 import styled from 'styled-components';
 
 const MainPage = styled.main``;
@@ -34,11 +34,11 @@ const teaserText = (html: string) => {
   return 'why is this a string and not a processed tag?';
 };
 
-export const MainPageLayout = ({ posts }: { posts: MDPost[] }) => {
+export const MainPageLayout = ({ posts }: { posts: PostListing[] }) => {
   return (
     <MainPage>
       <ul>
-        {posts.map(({ id, date, html, title, tags }, index) => {
+        {posts.map(({ date, url: id, title, tags }, index) => {
           let Tag = tags?.includes('post') ? PostLi : ProjectLi;
           return (
             <Tag key={id}>
@@ -46,7 +46,7 @@ export const MainPageLayout = ({ posts }: { posts: MDPost[] }) => {
                 <strong>{title}</strong>
                 {formatDate(date)}
                 {displayTags(tags)}
-                {index === 0 ? teaserText(html) : ''}
+                {/* {index === 0 ? teaserText(html) : ''} */}
               </Link>
             </Tag>
           );

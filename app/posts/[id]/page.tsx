@@ -1,19 +1,27 @@
-import { getAllAndById } from '@api/getMdPosts';
-const { getPostById, getAllPosts } = getAllAndById(['_posts']);
+// import { getAllAndById } from '@api/getMdPosts';
+// const { getPostById, getAllPosts } = getAllAndById(['_posts']);
+// const { getPostById, getAllPosts } = getAllAndById(['_posts', '_projects']);
+
+import { getAllAndById } from '@api/getPosts';
+const { getPostById, getAllPosts } = getAllAndById();
 
 export default async function Post({
   params: { id },
 }: {
   params: { id: string };
 }) {
-  const { html, title, date } = await getPostById(id);
-  return (
-    <main>
-      <h1>{title}</h1>
-      <h4>{date}</h4>
-      <div dangerouslySetInnerHTML={{ __html: html }} />
-    </main>
-  );
+  const post = await getPostById(id);
+  if (post) {
+    const { html, title, date } = post;
+    return (
+      <main>
+        <h1>{title}</h1>
+        <h4>{date.toLocaleString()}</h4>
+        <div dangerouslySetInnerHTML={{ __html: html }} />
+      </main>
+    );
+  }
+  return <main>Page not found</main>;
 }
 
 export async function generateStaticParams() {
@@ -28,8 +36,12 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }) {
-  const { title } = await getPostById(id);
-  return {
-    title,
-  };
+  const post = await getPostById(id);
+  if (post) {
+    const { title } = post;
+    return {
+      title,
+    };
+  }
+  return { title: 'bob' };
 }
