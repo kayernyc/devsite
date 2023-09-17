@@ -20,11 +20,13 @@ const initModule = async () => {
     ({
       date,
       post_id,
+      post_tags,
       title,
       url,
     }: {
       date: number;
       post_id: string;
+      post_tags: string[];
       title: string;
       url: string;
     }) => {
@@ -32,7 +34,7 @@ const initModule = async () => {
         date,
         id: post_id,
         source: SourceTypes.DB_POST,
-        tags: ['post'],
+        post_tags: [...post_tags, 'post'],
         title,
         url,
       };
@@ -41,7 +43,7 @@ const initModule = async () => {
 
   const allMDPosts = await getAllMDPosts();
   allMDPosts.forEach((mdPost) => {
-    const { post_id, date, title, tags = [] } = mdPost;
+    const { post_id, date, title, post_tags = [] } = mdPost;
     const url = encodeURIComponent(
       title.toLowerCase().replace(/[^a-z0-9 _-]+/gi, '-')
     );
@@ -53,7 +55,7 @@ const initModule = async () => {
       source: SourceTypes.MD_POST,
       title,
       url,
-      tags,
+      post_tags,
       date: dataNumber,
     };
   });
@@ -88,14 +90,13 @@ export function getAllAndById(): {
         return getDBPostById(obj.id);
       case SourceTypes.MD_POST:
         return getMDPostById(id);
-        break;
     }
 
     return {
       html: '<main>bob is palendromic</main>',
       title: 'test bob',
       date: new Date(4982357249068),
-      tags: Array<string>(),
+      post_tags: Array<string>(),
     } as PublishedPost;
   };
 

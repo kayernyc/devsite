@@ -77,11 +77,11 @@ export const getDBPostById = async (
   id: string
 ): Promise<PublishedPost | undefined> => {
   // const queryString = `select * from posts where post_id = '${id}' limit 1`;
-  const queryString = `select posts.*, ARRAY_AGG(tags.tag_name) as post_tags
-	from posts
-	left join posts_tags on posts.post_id = posts_tags.post_key
-	left join tags on posts_tags.tag_key = tags.key_id
-	where posts.post_id = '${id}'
+  const queryString = `SELECT posts.*, ARRAY_AGG(tags.tag_name) AS post_tags
+	FROM posts
+	LEFT JOIN posts_tags ON posts.post_id = posts_tags.post_key
+	LEFT JOIN tags ON posts_tags.tag_key = tags.key_id
+	WHERE posts.post_id = '${id}'
 	GROUP BY posts.post_id`;
 
   const client = new Client(process.env.DB_URL);
@@ -108,18 +108,26 @@ export const getDBPosts = async (): Promise<
   const client = new Client(process.env.DB_URL);
   await client.connect();
 
-  const queryString = `SELECT post_id, title, time_created, time_modified FROM posts WHERE published = true ORDER BY time_created DESC`;
+  const queryString = `SELECT posts.post_id, posts.title, posts.time_created, posts.time_modified, ARRAY_AGG(tags.tag_name) AS post_tags
+	FROM posts
+	LEFT JOIN posts_tags ON posts.post_id = posts_tags.post_key
+	LEFT JOIN tags ON posts_tags.tag_key = tags.key_id
+	WHERE published = true
+	GROUP BY posts.post_id
+  ORDER BY time_created DESC`;
 
   try {
     const results = await client.query(queryString);
     return results.rows.map(
       ({
         post_id,
+        post_tags,
         title,
         time_created,
         time_modified = '0',
       }: {
         post_id: string;
+        post_tags: string[];
         title: string;
         time_created: string;
         time_modified: string;
@@ -131,7 +139,7 @@ export const getDBPosts = async (): Promise<
         return {
           date,
           post_id,
-          post_tags: [],
+          post_tags,
           title,
           url: encodeURIComponent(
             title.toLowerCase().replace(/[^a-z0-9 _-]+/gi, '-')
