@@ -9,7 +9,10 @@ const Header = styled.header`
   width: 100%;
 `;
 
-const StyledNavLink = styled(NavLink)``;
+const StyledNavLink = styled(NavLink)`
+  color: inherit;
+  text-decoration: none;
+`;
 
 const NavHeader = styled.nav`
   display: flex;

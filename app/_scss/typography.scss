@@ -78,6 +78,15 @@ a {
   text-decoration: none;
 }
 
+a.link-style {
+  --link-color: color-mix(in oklab, black, #0000ff 30%);
+  color: var(--link-color);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--link-color), white 70%);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 0.5px;
+}
+
 u,
 ins {
   text-underline-offset: 3px;

@@ -4,8 +4,10 @@ const DateTag = styled.aside`
   align-items: center;
   display: flex;
   font-size: 0.8rem;
+  width: fit-content;
 
   strong {
+    color: #bbb;
     font-size: 0.6rem;
     margin-top: -0.07rem;
     padding: 0 0.5rem;
