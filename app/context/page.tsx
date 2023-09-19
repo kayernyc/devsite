@@ -26,7 +26,9 @@ const Context = () => (
     </section>
     <section>
       <p>I&apos;m also an occassionally practicing artist...</p>
-      <Link href="https://kathrinayer.com">Drawing site</Link>
+      <Link className="link-style" href="https://kathrinayer.com">
+        Drawing site
+      </Link>
     </section>
     <section>
       <ContactForm />

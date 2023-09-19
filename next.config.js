@@ -13,6 +13,16 @@ const nextConfig = {
   eslint: {
     dirs: ['app'],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'placekitten.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, 'app/_scss')],
   },

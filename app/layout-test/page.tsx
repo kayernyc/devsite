@@ -13,83 +13,133 @@ const LayoutTest = () => {
             <a href="#text">Text</a>
             <ul>
               <li>
-                <a href="#text__headings">Headings</a>
+                <a className="link-style" href="#text__headings">
+                  Headings
+                </a>
               </li>
               <li>
-                <a href="#text__paragraphs">Paragraphs</a>
+                <a className="link-style" href="#text__paragraphs">
+                  Paragraphs
+                </a>
               </li>
               <li>
-                <a href="#text__blockquotes">Blockquotes</a>
+                <a className="link-style" href="#text__blockquotes">
+                  Blockquotes
+                </a>
               </li>
               <li>
-                <a href="#text__lists">Lists</a>
+                <a className="link-style" href="#text__lists">
+                  Lists
+                </a>
               </li>
               <li>
-                <a href="#text__hr">Horizontal rules</a>
+                <a className="link-style" href="#text__hr">
+                  Horizontal rules
+                </a>
               </li>
               <li>
-                <a href="#text__tables">Tabular data</a>
+                <a className="link-style" href="#text__tables">
+                  Tabular data
+                </a>
               </li>
               <li>
-                <a href="#text__code">Code</a>
+                <a className="link-style" href="#text__code">
+                  Code
+                </a>
               </li>
               <li>
-                <a href="#text__inline">Inline elements</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#embedded">Embedded content</a>
-            <ul>
-              <li>
-                <a href="#embedded__images">Images</a>
-              </li>
-              <li>
-                <a href="#embedded__audio">Audio</a>
-              </li>
-              <li>
-                <a href="#embedded__video">Video</a>
-              </li>
-              <li>
-                <a href="#embedded__canvas">Canvas</a>
-              </li>
-              <li>
-                <a href="#embedded__meter">Meter</a>
-              </li>
-              <li>
-                <a href="#embedded__progress">Progress</a>
-              </li>
-              <li>
-                <a href="#embedded__svg">Inline SVG</a>
-              </li>
-              <li>
-                <a href="#embedded__iframe">IFrames</a>
+                <a className="link-style" href="#text__inline">
+                  Inline elements
+                </a>
               </li>
             </ul>
           </li>
           <li>
-            <a href="#forms">Form elements</a>
+            <a className="link-style" href="#embedded">
+              Embedded content
+            </a>
             <ul>
               <li>
-                <a href="#forms__input">Input fields</a>
+                <a className="link-style" href="#embedded__images">
+                  Images
+                </a>
               </li>
               <li>
-                <a href="#forms__select">Select menus</a>
+                <a className="link-style" href="#embedded__audio">
+                  Audio
+                </a>
               </li>
               <li>
-                <a href="#forms__checkbox">Checkboxes</a>
+                <a className="link-style" href="#embedded__video">
+                  Video
+                </a>
               </li>
               <li>
-                <a href="#forms__radio">Radio buttons</a>
+                <a className="link-style" href="#embedded__canvas">
+                  Canvas
+                </a>
               </li>
               <li>
-                <a href="#forms__textareas">Textareas</a>
+                <a className="link-style" href="#embedded__meter">
+                  Meter
+                </a>
               </li>
               <li>
-                <a href="#forms__html5">HTML5 inputs</a>
+                <a className="link-style" href="#embedded__progress">
+                  Progress
+                </a>
               </li>
               <li>
-                <a href="#forms__action">Action buttons</a>
+                <a className="link-style" href="#embedded__svg">
+                  Inline SVG
+                </a>
+              </li>
+              <li>
+                <a className="link-style" href="#embedded__iframe">
+                  IFrames
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a className="link-style" href="#forms">
+              Form elements
+            </a>
+            <ul>
+              <li>
+                <a className="link-style" href="#forms__input">
+                  Input fields
+                </a>
+              </li>
+              <li>
+                <a className="link-style" href="#forms__select">
+                  Select menus
+                </a>
+              </li>
+              <li>
+                <a className="link-style" href="#forms__checkbox">
+                  Checkboxes
+                </a>
+              </li>
+              <li>
+                <a className="link-style" href="#forms__radio">
+                  Radio buttons
+                </a>
+              </li>
+              <li>
+                <a className="link-style" href="#forms__textareas">
+                  Textareas
+                </a>
+              </li>
+              <li>
+                <a className="link-style" href="#forms__html5">
+                  HTML5 inputs
+                </a>
+              </li>
+              <li>
+                <a className="link-style" href="#forms__action">
+                  Action buttons
+                </a>
               </li>
             </ul>
           </li>
@@ -429,6 +479,8 @@ const LayoutTest = () => {
                 <Image
                   src="http://placekitten.com/480/480"
                   alt="Image alt text"
+                  height={480}
+                  width={480}
                 />
               </p>
               <h3>
@@ -439,6 +491,8 @@ const LayoutTest = () => {
                 <Image
                   src="http://placekitten.com/420/420"
                   alt="Image alt text"
+                  height={420}
+                  width={420}
                 />
               </figure>
               <h3>
@@ -449,6 +503,8 @@ const LayoutTest = () => {
                 <Image
                   src="http://placekitten.com/420/420"
                   alt="Image alt text"
+                  height={420}
+                  width={420}
                 />
                 <figcaption>Here is a caption for this image.</figcaption>
               </figure>

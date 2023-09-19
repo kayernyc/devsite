@@ -1,8 +1,6 @@
-// import { getAllAndById } from '@api/getMdPosts';
-// const { getPostById, getAllPosts } = getAllAndById(['_posts']);
-// const { getPostById, getAllPosts } = getAllAndById(['_posts', '_projects']);
-
+import { PostRender } from './post-render';
 import { getAllAndById } from '@api/getPosts';
+
 const { getPostById, getAllPosts } = getAllAndById();
 
 export default async function Post({
@@ -12,16 +10,7 @@ export default async function Post({
 }) {
   const post = await getPostById(id);
   if (post) {
-    const { html, title, date, post_tags } = post;
-
-    return (
-      <main>
-        <h1>{title}</h1>
-        <h4>{date.toLocaleString()}</h4>
-        <h4>{post_tags.join(', ')}</h4>
-        <div dangerouslySetInnerHTML={{ __html: html }} />
-      </main>
-    );
+    return <PostRender post={post} />;
   }
   return <main>Page not found</main>;
 }

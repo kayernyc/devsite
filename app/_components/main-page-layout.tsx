@@ -16,6 +16,35 @@ const PostLi = styled(PageLi)``;
 
 const ProjectLi = styled(PageLi)`
   margin-left: 2rem;
+
+  &::before {
+    content: 'project';
+    background: hsl(9.53deg 84.66% 37.68%);
+    color: white;
+    position: absolute;
+    transform: rotate(-90deg);
+    left: -3.75rem;
+    top: 2.4rem;
+    padding: 0.15rem 0.6rem 0.35rem;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  display: inline-flex;
+  flex-direction: column;
+  max-width: fit-content;
+
+  > * {
+    display: inline-block;
+  }
+
+  h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    text-transform: uppercase;
+  }
 `;
 
 const displayTags = (tags?: string[]) => {
@@ -42,12 +71,12 @@ export const MainPageLayout = ({ posts }: { posts: PostListing[] }) => {
           let Tag = post_tags?.includes('post') ? PostLi : ProjectLi;
           return (
             <Tag key={id}>
-              <Link href={`/posts/${id}`}>
-                <strong>{title}</strong>
+              <StyledLink href={`/posts/${id}`}>
+                <h3>{title}</h3>
                 {formatDate(date)}
                 {displayTags(post_tags)}
                 {/* {index === 0 ? teaserText(html) : ''} */}
-              </Link>
+              </StyledLink>
             </Tag>
           );
         })}
