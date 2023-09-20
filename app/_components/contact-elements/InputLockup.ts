@@ -5,18 +5,18 @@ export const ContactFrom = styled.form`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 0.5rem;
 
   width: 100%;
   max-width: 60ch;
 
   > div {
-    flex: 2 0 calc(100% - 30ch);
+    flex: 2 1 25ch;
     margin-left: auto;
   }
 
   > *:first-child {
-    flex: 0 1 calc(100% - 30ch - 8px);
-    margin-inline-end: 8px;
+    flex: 1 2 calc(25ch - 100%);
   }
 
   > article button {
