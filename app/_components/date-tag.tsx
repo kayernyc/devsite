@@ -7,7 +7,7 @@ const DateTag = styled.aside`
   width: fit-content;
 
   strong {
-    color: #bbb;
+    color: hsl(0, 0%, 73.33333333333333%);
     font-size: 0.6rem;
     margin-top: -0.07rem;
     padding: 0 0.5rem;

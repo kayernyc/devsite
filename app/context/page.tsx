@@ -30,9 +30,19 @@ const Context = () => (
         Drawing site
       </Link>
     </section>
+    <br />
     <section>
       <ContactForm />
     </section>
+    <p>
+      <i className="rc-scout__logo"></i>
+      <a
+        className="rc-scout__link link-style"
+        href="https://www.recurse.com/scout/click?t=b989d976a4bb7208d861570a04011f71"
+      >
+        Join the Recurse Center!
+      </a>
+    </p>
   </main>
 );
 
