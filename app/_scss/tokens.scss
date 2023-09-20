@@ -1,0 +1,33 @@
+:root {
+  --primary-000: hsl(0, 0%, 11%);
+  --primary-100: hsl(0, 0%, 19%);
+  --primary-700: hsl(0, 0%, 73.33%);
+  --primary-900: hsl(0, 0%, 95%);
+  --primary-970: hsl(0, 0%, 97%);
+  --primary-1000: hsl(0, 0%, 100%);
+
+  --accent-1-200: hsl(9.53deg 84.66% 20%);
+  --accent-1-400: hsl(9.53deg 84.66% 37.68%);
+  --accent-1-600: hsl(9, 98%, 57%);
+
+  --accent-2-wow: oklab(0.740674 -0.00288972 -0.028023);
+  --link-color-100: color-mix(in oklab, black, #0000ff 30%);
+  --link-color-600: color-mix(in oklab, var(--link-color-100), white 70%);
+  --link-color-00: color-mix(in oklab, var(--link-color-100), white 70%);
+
+  --background-color: var(--primary-970);
+  --body-text-color: var(--primary-100);
+  --header-color: var(--primary-000);
+  --link-text-color: var(--link-color-100);
+  --link-text-underline-color: var(--link-color-600);
+  --accent-1: var(--accent-1-400);
+
+  @media (prefers-color-scheme: dark) {
+    --background-color: var(--primary-000);
+    --body-text-color: var(--primary-900);
+    --header-color: var(--primary-1000);
+    --link-text-color: var(--link-color-100);
+    --link-text-underline-color: var(--link-color-600);
+    --accent-1: var(--accent-1-300);
+  }
+}

@@ -33,7 +33,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #101010;
+  color: var(--body-text-color);
   font-weight: 300;
   letter-spacing: 0.45rem;
   line-height: 1.6em;
@@ -79,10 +79,9 @@ a {
 }
 
 a.link-style {
-  --link-color: color-mix(in oklab, black, #0000ff 30%);
-  color: var(--link-color);
+  color: var(--link-text-color);
   text-decoration: underline;
-  text-decoration-color: color-mix(in oklab, var(--link-color), white 70%);
+  text-decoration-color: var(--link-text-underline-color);
   text-underline-offset: 3px;
   text-decoration-thickness: 0.5px;
 }
@@ -90,4 +89,17 @@ a.link-style {
 u,
 ins {
   text-underline-offset: 3px;
+}
+
+textarea,
+input {
+  border: none;
+  border-bottom: solid 1px var(--link-text-underline-color);
+  padding: 0.25rem 0.5rem;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--link-text-underline-color);
+  opacity: 0.5;
 }
