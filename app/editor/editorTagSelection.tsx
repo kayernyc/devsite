@@ -1,7 +1,13 @@
 'use client';
 
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
+
+type tagResult = {
+  tag_id: string;
+  tag_name: string;
+};
 
 // create table tags(tag_id UUID, tag_name VARCHAR(255) NOT NULL, key_id SERIAL PRIMARY KEY)
 const db_results = [
@@ -27,6 +33,7 @@ const TagSelectSection = styled.section`
     background-color: pink;
   }
 
+  button,
   label,
   input {
     align-self: start;
@@ -38,6 +45,13 @@ interface TagSelectorProps {
 }
 
 export const TagSelector = ({ callback }: TagSelectorProps) => {
+  const [availableTags, setAvailableTags] = useState<tagResult[]>([]);
+  const [newTag, setNewTag] = useState('');
+
+  useEffect(() => {
+    setAvailableTags(db_results);
+  }, []);
+
   // represent dropdown
   return (
     <TagSelectSection>
@@ -50,7 +64,6 @@ export const TagSelector = ({ callback }: TagSelectorProps) => {
           const newSelectedTags: string[] = Array.from(
             evt.target.options
           ).reduce((acc, { value, selected }) => {
-            console.log(value, selected);
             if (selected) {
               acc.push(value);
             }
@@ -65,14 +78,33 @@ export const TagSelector = ({ callback }: TagSelectorProps) => {
         <option value="" role="option">
           --select an existing tag--
         </option>
-        {db_results.map(({ tag_id, tag_name }) => (
+        {availableTags.map(({ tag_id, tag_name }) => (
           <option key={tag_id} role="option">
             {tag_name}
           </option>
         ))}
       </select>
       <label htmlFor="new-tag">New tag</label>
-      <input type="text" id="new-tag" />
+      <input
+        type="text"
+        id="new-tag"
+        onChange={(evt: ChangeEvent<HTMLInputElement>) => {
+          setNewTag(evt.target.value);
+        }}
+        value={newTag}
+      />
+      <button
+        onClick={() => {
+          if (newTag) {
+            const newTagObj = { tag_name: newTag, tag_id: uuidv4() };
+            const newTags = [...availableTags, newTagObj];
+            setAvailableTags(newTags);
+            setNewTag('');
+          }
+        }}
+      >
+        Commit new tag
+      </button>
     </TagSelectSection>
   );
 };
