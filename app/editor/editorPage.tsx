@@ -12,6 +12,7 @@ import MermaidTool from 'editorjs-mermaid';
 import { POST_URL } from '@constants/urls';
 import { PostMetaData } from './postMetadata';
 import Quote from '@editorjs/quote';
+import { TagSelector } from './editorTagSelection';
 
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
@@ -279,6 +280,7 @@ const Editor = () => {
   return (
     <main>
       <EditorHeader selectPostToUpdate={selectPostToUpdate} />
+      <TagSelector />
       <InputLabel htmlFor="title-input">Title</InputLabel>
       <TitleInput
         type="text"
