@@ -1,21 +1,15 @@
 'use client';
 
-import { ChangeEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  ChangeEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import { TagDBResult } from '@customTypes/editorTypes';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
-
-type tagResult = {
-  tag_id: string;
-  tag_name: string;
-};
-
-// create table tags(tag_id UUID, tag_name VARCHAR(255) NOT NULL, key_id SERIAL PRIMARY KEY)
-const db_results = [
-  { tag_id: 'adlfjwitorhg', tag_name: 'process' },
-  { tag_id: '49057hgldkds', tag_name: 'til' },
-  { tag_id: '49057hgl255ds', tag_name: 'object oriented management practices' },
-  { tag_id: '49057hgld23ttys', tag_name: 'javascript' },
-];
 
 const TagSelectSection = styled.section`
   display: inline-flex;
@@ -41,16 +35,65 @@ const TagSelectSection = styled.section`
 `;
 
 interface TagSelectorProps {
-  callback?: (selected: string[]) => void;
+  callback?: (selected: TagDBResult[]) => void;
 }
 
 export const TagSelector = ({ callback }: TagSelectorProps) => {
-  const [availableTags, setAvailableTags] = useState<tagResult[]>([]);
+  const [availableTags, setAvailableTags] = useState<TagDBResult[]>([]);
   const [newTag, setNewTag] = useState('');
 
   useEffect(() => {
-    setAvailableTags(db_results);
+    fetch('./api/tags', { method: 'get' }).then(async (data: Response) => {
+      const { tags } = await data.json();
+      setAvailableTags(tags);
+    });
   }, []);
+
+  const updateTagSelection: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (evt) => {
+      const newSelectedTags: TagDBResult[] = Array.from(
+        evt.target.options
+      ).reduce((acc, { value, selected, dataset: { key = '0', uuid } }) => {
+        if (selected) {
+          acc.push({
+            tag_name: value,
+            tag_id: uuid || '',
+            key_id: key,
+          });
+        }
+        return acc;
+      }, [] as TagDBResult[]);
+
+      if (typeof callback === 'function') {
+        callback(newSelectedTags);
+      }
+    },
+    [callback]
+  );
+
+  const createNewTag = useCallback(() => {
+    if (newTag) {
+      const newTagObj = { tag_name: newTag, tag_id: uuidv4() };
+      const newTags = [...availableTags, newTagObj];
+
+      fetch('./api/tags', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTagObj),
+      }).then(async (response) => {
+        const serverResponse = await response.json();
+        const { status } = serverResponse;
+        if (status > 199 && status < 300) {
+          setAvailableTags(newTags);
+          setNewTag('');
+        } else {
+          // ADD TOAST HANDLING HERE
+        }
+      });
+    }
+  }, [availableTags, newTag]);
 
   // represent dropdown
   return (
@@ -60,26 +103,18 @@ export const TagSelector = ({ callback }: TagSelectorProps) => {
         multiple
         role="listbox"
         title="existing tags"
-        onChange={(evt: ChangeEvent<HTMLSelectElement>) => {
-          const newSelectedTags: string[] = Array.from(
-            evt.target.options
-          ).reduce((acc, { value, selected }) => {
-            if (selected) {
-              acc.push(value);
-            }
-            return acc;
-          }, [] as string[]);
-
-          if (typeof callback === 'function') {
-            callback(newSelectedTags);
-          }
-        }}
+        onChange={updateTagSelection}
       >
         <option value="" role="option">
           --select an existing tag--
         </option>
-        {availableTags.map(({ tag_id, tag_name }) => (
-          <option key={tag_id} role="option">
+        {availableTags.map(({ tag_id, tag_name, key_id }) => (
+          <option
+            key={tag_id}
+            role="option"
+            data-uuid={tag_id}
+            data-key={key_id}
+          >
             {tag_name}
           </option>
         ))}
@@ -93,18 +128,7 @@ export const TagSelector = ({ callback }: TagSelectorProps) => {
         }}
         value={newTag}
       />
-      <button
-        onClick={() => {
-          if (newTag) {
-            const newTagObj = { tag_name: newTag, tag_id: uuidv4() };
-            const newTags = [...availableTags, newTagObj];
-            setAvailableTags(newTags);
-            setNewTag('');
-          }
-        }}
-      >
-        Commit new tag
-      </button>
+      <button onClick={createNewTag}>Commit new tag</button>
     </TagSelectSection>
   );
 };

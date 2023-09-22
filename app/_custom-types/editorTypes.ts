@@ -7,3 +7,9 @@ export interface EditorPostOutput extends OutputData {
   time_created?: string;
   time_modified?: string;
 }
+
+export type TagDBResult = {
+  tag_id: string;
+  tag_name: string;
+  key_id?: string;
+};
