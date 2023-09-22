@@ -1,10 +1,10 @@
 'use client';
 
 import EditorJS, { BlockToolConstructable } from '@editorjs/editorjs';
+import { EditorPostOutput, TagDBResult } from '@customTypes/editorTypes';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Code from '@editorjs/code';
 import { EditorHeader } from './editorHeader';
-import { EditorPostOutput } from '@customTypes/editorTypes';
 import Header from '@editorjs/header';
 import ImageTool from '@editorjs/image';
 import List from '@editorjs/list';
@@ -12,6 +12,7 @@ import MermaidTool from 'editorjs-mermaid';
 import { POST_URL } from '@constants/urls';
 import { PostMetaData } from './postMetadata';
 import Quote from '@editorjs/quote';
+import { TagSelector } from './editorTagSelection';
 
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
@@ -38,6 +39,8 @@ const Editor = () => {
   >();
   const [editor, setEditor] = useState<EditorJS | undefined>(undefined);
   const [savable, setSavable] = useState(false);
+  const [selectedTags, setSelectedTags] = useState<TagDBResult[]>([]);
+
   const editorRef = useRef(null);
   const titleRef = useRef<HTMLInputElement>(null);
 
@@ -211,6 +214,7 @@ const Editor = () => {
     const postData = {
       ...data,
       post_id: modifiedPost?.post_id || uuidv4(),
+      tags: selectedTags,
       time_created: modifiedPost?.time_created || data.time || Date.now(),
       time_modified: data.time || Date.now(),
     };
@@ -276,9 +280,15 @@ const Editor = () => {
     }
   };
 
+  const updateTags = (selected: TagDBResult[]) => {
+    console.log({ selected });
+    setSelectedTags(selected);
+  };
+
   return (
     <main>
       <EditorHeader selectPostToUpdate={selectPostToUpdate} />
+      <TagSelector callback={updateTags} />
       <InputLabel htmlFor="title-input">Title</InputLabel>
       <TitleInput
         type="text"

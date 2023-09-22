@@ -37,7 +37,7 @@ export const EditorHeader = ({
       </h2>
       {unpublishedPosts && (
         <select
-          id="existing_posts"
+          id="existing-posts"
           onChange={(evt: ChangeEvent<HTMLSelectElement>) => {
             if (evt.target?.value && typeof evt.target?.value === 'string') {
               selectPostToUpdate(evt.target.value);
