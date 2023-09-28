@@ -7,6 +7,7 @@ import Code from '@editorjs/code';
 import { EditorHeader } from './editorHeader';
 import Header from '@editorjs/header';
 import ImageTool from '@editorjs/image';
+import LinkTool from '@editorjs/link';
 import List from '@editorjs/list';
 import MermaidTool from 'editorjs-mermaid';
 import { POST_URL } from '@constants/urls';
@@ -84,6 +85,12 @@ const Editor = () => {
               placeholder: 'Enter a header',
               levels: [2, 3, 4],
               defaultLevel: 2,
+            },
+          },
+          linkTool: {
+            class: LinkTool,
+            config: {
+              endpoint: 'http://localhost:8000/api/editorlink', // Your backend endpoint for url data fetching,
             },
           },
           list: List,
@@ -183,10 +190,11 @@ const Editor = () => {
         .then(() => {
           setEditor(neweditor);
         })
-        .catch((reason) => {
+        .catch((reason: any) => {
           console.warn(`Editor.js initialization failed because of ${reason}`);
         });
       return () => {
+        // neweditor.destroy();
         neweditor.destroy();
       };
     }
@@ -265,7 +273,7 @@ const Editor = () => {
     if (editor) {
       editor
         .save()
-        .then(async (outputData) => {
+        .then(async (outputData: any) => {
           const data = {
             ...outputData,
             published,

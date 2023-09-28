@@ -7,7 +7,6 @@ const nextConfig = {
     styledComponents: true,
   },
   experimental: {
-    appDir: true,
     serverActions: true,
   },
   eslint: {
