@@ -10,6 +10,9 @@
     "start": "next start",
     "test": "vitest"
   },
+  "engines": {
+    "node": "~18.16.0"
+  },
   "dependencies": {
     "@cloudinary/react": "^1.11.2",
     "@cloudinary/url-gen": "^1.11.2",
@@ -49,6 +52,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@editorjs/link": "^2.5.0",
     "@editorjs/quote": "^2.5.0",
     "@testing-library/jest-dom": "^6.1.2",
     "@testing-library/react": "^14.0.0",
