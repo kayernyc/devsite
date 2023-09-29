@@ -38,6 +38,8 @@ const getParser = () => {
   return parserPre;
 };
 
+// CREDIT WHERE CREDIT IS DUE - Based on an example by Colin Diesh : https://cmdcolin.github.io/
+
 const allSources = ['_posts', '_projects'];
 
 // url
@@ -45,21 +47,58 @@ const postMap: Record<string, string> = {};
 
 const titleMap: Record<string, [string, string]> = {};
 
+const postByIdForMap = async (id: string): Promise<PostMinimalListing> => {
+  const dirId = postMap[id];
+  const fullPath = join(dirId, `${id}.md`);
+
+  const { data, content } = matter(
+    await fs.promises.readFile(fullPath, 'utf8'),
+  );
+
+  const url = encodeURIComponent(
+    data.title.toLowerCase().replace(/[^a-z0-9 _-]+/gi, '-'),
+  );
+
+  titleMap[url] = [id, dirId];
+
+  return {
+    post_id: id,
+    post_tags: data.tags || Array<string>(),
+    title: data.title,
+    date: new Date(data.date).getTime(),
+    url,
+  };
+};
+
+const createTitleMap = async (postMap: Record<string, string>) => {
+  const allPostIds = Object.entries(postMap).map(([id]) => id);
+
+  await Promise.all(
+    allPostIds
+      .map((id) => postByIdForMap(id))
+      .map((thing) => {
+        return thing;
+      }),
+  );
+};
+
 const mapAllPosts = async () => {
   for (let source of allSources) {
     const posts = await Promise.all(
-      fs.readdirSync(source).map((id: string) => [id, source])
+      fs.readdirSync(source).map((id: string) => [id, source]),
     );
 
     posts.forEach(([id, source]) => {
       const realId = id.replace(/\.md$/, '');
       postMap[realId] = source;
     });
+
+    await createTitleMap(postMap);
   }
 };
 
 const isMapReady = () => {
-  return Object.keys(postMap).length > 0;
+  return Object.keys(postMap).length > 0 && Object.keys(titleMap).length > 0;
 };
 
 export const getAllAndById = (source: string[] = allSources) => {
@@ -72,12 +111,12 @@ export const getAllAndById = (source: string[] = allSources) => {
     if (!isMapReady()) {
       await mapAllPosts();
     }
-    const [mdPath, dirId] = titleMap[id];
 
+    const [mdPath, dirId] = titleMap[id];
     const fullPath = join(dirId, `${mdPath}.md`);
 
     const { data, content } = matter(
-      await fs.promises.readFile(fullPath, 'utf8')
+      await fs.promises.readFile(fullPath, 'utf8'),
     );
 
     const parser = await getParser();
@@ -91,39 +130,10 @@ export const getAllAndById = (source: string[] = allSources) => {
     };
   };
 
-  const postByIdForMap = async (id: string): Promise<PostMinimalListing> => {
-    if (!isMapReady()) {
-      await mapAllPosts();
-    }
-    const dirId = postMap[id];
-    const fullPath = join(dirId, `${id}.md`);
-
-    const { data, content } = matter(
-      await fs.promises.readFile(fullPath, 'utf8')
-    );
-
-    const parser = await getParser();
-    const html = await parser.process(content);
-
-    const url = encodeURIComponent(
-      data.title.toLowerCase().replace(/[^a-z0-9 _-]+/gi, '-')
-    );
-
-    titleMap[url] = [id, dirId];
-
-    return {
-      post_id: id,
-      post_tags: data.tags || Array<string>(),
-      title: data.title,
-      date: new Date(data.date).getTime(),
-      url,
-    };
-  };
-
   const sortAllPosts = async () => {
     if (!allPosts) {
       const allPostIds = Object.entries(postMap)
-        .filter(([id, dirId]: [string, string]) => {
+        .filter(([_, dirId]: [string, string]) => {
           return source.includes(dirId);
         })
         .map(([id]) => id);
@@ -133,11 +143,11 @@ export const getAllAndById = (source: string[] = allSources) => {
           .map((id) => postByIdForMap(id))
           .map((thing) => {
             return thing;
-          })
+          }),
       );
 
       allPosts = posts.sort((post1, post2) =>
-        post1.date > post2.date ? -1 : 1
+        post1.date > post2.date ? -1 : 1,
       );
     }
   };
@@ -156,5 +166,3 @@ export const getAllAndById = (source: string[] = allSources) => {
 
   return { getPostById, getAllPosts };
 };
-
-// CREDIT WHERE CREDIT IS DUE - Based on an example by Colin Diesh : https://cmdcolin.github.io/

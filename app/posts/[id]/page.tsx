@@ -29,9 +29,8 @@ export async function generateMetadata({
 }) {
   const post = await getPostById(id);
   if (post) {
-    const { title } = post;
     return {
-      title,
+      title: post.title,
     };
   }
   return { title: 'bob' };
