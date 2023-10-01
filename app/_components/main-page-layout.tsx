@@ -1,10 +1,12 @@
 'use client';
 
-import Link from 'next/link';
-import { PostListing } from '@customTypes/PostTypes';
-import { formatDate } from './date-tag';
-
 import styled from 'styled-components';
+
+import Link from 'next/link';
+
+import { PostListing } from '@customTypes/PostTypes';
+
+import { formatDate } from './date-tag';
 
 const MainPage = styled.main``;
 
@@ -67,7 +69,7 @@ export const MainPageLayout = ({ posts }: { posts: PostListing[] }) => {
   return (
     <MainPage>
       <ul>
-        {posts.map(({ date, url: id, source, title, post_tags }, index) => {
+        {posts.map(({ date, url: id, title, post_tags }) => {
           let Tag = PostLi;
           let linkDirectory = 'posts';
           if (post_tags?.includes('project')) {

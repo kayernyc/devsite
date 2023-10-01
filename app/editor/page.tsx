@@ -1,6 +1,8 @@
-import { authOptions } from '@api/auth/[...nextauth]/route';
-import dynamic from 'next/dynamic';
 import { getServerSession } from 'next-auth/next';
+
+import dynamic from 'next/dynamic';
+
+import { authOptions } from '@api/auth/[...nextauth]/route';
 
 const EditorNoSSR = dynamic(() => import('./editorPage'), { ssr: false });
 

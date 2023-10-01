@@ -1,16 +1,16 @@
-import * as shiki from 'shiki';
-import { PostMinimalListing, PublishedPost } from '@customTypes/PostTypes';
 import fs from 'fs';
-import { join } from 'path';
-
 import matter from 'gray-matter';
-import rehypeShiki from '@leafac/rehype-shiki';
+import { join } from 'path';
 import rehypeSlug from 'rehype-slug';
 import rehypeStringify from 'rehype-stringify';
 import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
+import * as shiki from 'shiki';
 import { unified } from 'unified';
+
+import { PostMinimalListing, PublishedPost } from '@customTypes/PostTypes';
+import rehypeShiki from '@leafac/rehype-shiki';
 
 let parserPre: ReturnType<typeof getParserPre> | undefined;
 

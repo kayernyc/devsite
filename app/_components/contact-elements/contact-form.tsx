@@ -1,12 +1,13 @@
 'use client';
 
+import axios from 'axios';
+import { useState } from 'react';
+
+import { validate } from '@utilities/validations';
+
 import { ContactFrom } from './InputLockup';
 import ContactTextArea from './contact-text-area';
 import InputComponent from './input-component';
-
-import axios from 'axios';
-import { useState } from 'react';
-import { validate } from '@utilities/validations';
 
 interface IValues {
   name: string;
@@ -59,7 +60,7 @@ export const ContactForm = () => {
   const handleChange = (
     e:
       | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLTextAreaElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     setValues((prevInput) => ({
       ...prevInput,

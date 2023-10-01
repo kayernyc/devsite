@@ -1,10 +1,11 @@
+import { getAllAndById as getAllMDAndById } from '@api/getMdPosts';
 import {
   PostListing,
   PublishedPost,
   SourceTypes,
 } from '@customTypes/PostTypes';
+
 import { getDBPostById, getDBPosts } from './getDBPosts';
-import { getAllAndById as getAllMDAndById } from '@api/getMdPosts';
 
 const { getAllPosts: getAllMDPosts, getPostById: getMDPostById } =
   getAllMDAndById(['_posts', '_projects']);
@@ -38,14 +39,14 @@ const initModule = async () => {
         title,
         url,
       };
-    }
+    },
   );
 
   const allMDPosts = await getAllMDPosts();
   allMDPosts.forEach((mdPost) => {
     const { post_id, date, title, post_tags = [] } = mdPost;
     const url = encodeURIComponent(
-      title.toLowerCase().replace(/[^a-z0-9 _-]+/gi, '-')
+      title.toLowerCase().replace(/[^a-z0-9 _-]+/gi, '-'),
     );
 
     const dataNumber = new Date(date).getTime();

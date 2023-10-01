@@ -1,4 +1,5 @@
 import { Client } from 'pg';
+
 import { NextRequest } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -16,7 +17,7 @@ export async function POST(request: NextRequest) {
       JSON.stringify({
         status: 201,
         message: `${tag_name} successfully inserted.`,
-      })
+      }),
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error.';
@@ -24,7 +25,7 @@ export async function POST(request: NextRequest) {
       JSON.stringify({
         status: 400,
         message: `Error inserting ${tag_name}. ${message}`,
-      })
+      }),
     );
   } finally {
     client.end();

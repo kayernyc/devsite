@@ -1,7 +1,7 @@
 'use client';
 
-import { PublishedPost } from '@customTypes/PostTypes';
 import { formatDate } from '@components/date-tag';
+import { PublishedPost } from '@customTypes/PostTypes';
 
 export const ProjectRender = ({ post }: { post: PublishedPost }) => {
   const { html, title, date, post_tags } = post;

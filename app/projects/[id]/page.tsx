@@ -1,5 +1,6 @@
-import { ProjectRender } from './project-render';
 import { getAllAndById } from '@api/getMdPosts';
+
+import { ProjectRender } from './project-render';
 
 const { getPostById, getAllPosts } = getAllAndById(['_projects']);
 

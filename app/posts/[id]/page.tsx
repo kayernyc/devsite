@@ -1,5 +1,6 @@
-import { PostRender } from './post-render';
 import { getAllAndById } from '@api/getPosts';
+
+import { PostRender } from './post-render';
 
 const { getPostById, getAllPosts } = getAllAndById();
 

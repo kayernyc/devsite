@@ -8,5 +8,5 @@ export enum RestMethod {
 
 export type RequestHandler = (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => NextApiResponse;

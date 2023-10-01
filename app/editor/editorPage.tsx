@@ -1,22 +1,23 @@
 'use client';
 
-import EditorJS, { BlockToolConstructable } from '@editorjs/editorjs';
-import { EditorPostOutput, TagDBResult } from '@customTypes/editorTypes';
+import MermaidTool from 'editorjs-mermaid';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { v4 as uuidv4 } from 'uuid';
+
+import { POST_URL } from '@constants/urls';
+import { EditorPostOutput, TagDBResult } from '@customTypes/editorTypes';
 import Code from '@editorjs/code';
-import { EditorHeader } from './editorHeader';
+import EditorJS, { BlockToolConstructable } from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import ImageTool from '@editorjs/image';
 import LinkTool from '@editorjs/link';
 import List from '@editorjs/list';
-import MermaidTool from 'editorjs-mermaid';
-import { POST_URL } from '@constants/urls';
-import { PostMetaData } from './postMetadata';
 import Quote from '@editorjs/quote';
-import { TagSelector } from './editorTagSelection';
 
-import styled from 'styled-components';
-import { v4 as uuidv4 } from 'uuid';
+import { EditorHeader } from './editorHeader';
+import { TagSelector } from './editorTagSelection';
+import { PostMetaData } from './postMetadata';
 
 export const dynamic = 'force-dynamic';
 
@@ -119,7 +120,7 @@ const Editor = () => {
                           typeof event.target.result === 'string'
                         ) {
                           base64File = `data:${file.type};base64,${window.btoa(
-                            event.target.result
+                            event.target.result,
                           )}`;
                           const result = await fetch(
                             'http://localhost:8000/api/image',
@@ -133,13 +134,13 @@ const Editor = () => {
                                 fileType: file.type,
                                 fileURI: base64File,
                               }),
-                            }
+                            },
                           );
 
                           resolve(result);
                         }
                       };
-                    }
+                    },
                   ).then(async (data) => {
                     if (data instanceof Response) {
                       const {
@@ -202,7 +203,7 @@ const Editor = () => {
 
   const isDirty = (el: HTMLDivElement) => {
     const editor = el.getElementsByClassName(
-      'codex-editor__redactor'
+      'codex-editor__redactor',
     )[0] as HTMLDivElement;
 
     if (editor && editor.children) {

@@ -1,4 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
+
 // TODO: Investigate uploading from the BE
 // import multer from 'multer';
 
@@ -30,7 +31,7 @@ const uploadFile = async (request: Request, response: Response) => {
       file: {
         url: secure_url,
       },
-    })
+    }),
   );
 };
 

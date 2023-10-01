@@ -1,3 +1,5 @@
+import { Client } from 'pg';
+
 import {
   Block,
   PostMinimalListing,
@@ -5,6 +7,7 @@ import {
   PublishedPostRaw,
   isPublishedPostRaw,
 } from '@customTypes/PostTypes';
+
 import {
   BlockData,
   HeaderBlockData,
@@ -12,7 +15,6 @@ import {
   QuoteBlockData,
   blockTypeGuard,
 } from './_postHydrators/DBPostTypes';
-import { Client } from 'pg';
 
 const tagDictionary = {
   paragraph: (data: BlockData, id: string) => `<p key=${id}>${data.text}</p>`,
@@ -74,7 +76,7 @@ export const processPost = (rawPost: PublishedPostRaw): PublishedPost => {
 };
 
 export const getDBPostById = async (
-  id: string
+  id: string,
 ): Promise<PublishedPost | undefined> => {
   // const queryString = `select * from posts where post_id = '${id}' limit 1`;
   const queryString = `SELECT posts.*, ARRAY_AGG(tags.tag_name) AS post_tags
@@ -142,10 +144,10 @@ export const getDBPosts = async (): Promise<
           post_tags,
           title,
           url: encodeURIComponent(
-            title.toLowerCase().replace(/[^a-z0-9 _-]+/gi, '-')
+            title.toLowerCase().replace(/[^a-z0-9 _-]+/gi, '-'),
           ),
         };
-      }
+      },
     );
   } catch (err) {
     console.warn(err);

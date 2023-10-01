@@ -1,6 +1,8 @@
-import Image from 'next/image';
-import { VisuallyHidden } from './visuallyHidden';
 import styled from 'styled-components';
+
+import Image from 'next/image';
+
+import { VisuallyHidden } from './visuallyHidden';
 
 const DLMButton = styled.button`
   border: none;
