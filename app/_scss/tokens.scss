@@ -21,13 +21,4 @@
   --link-text-color: var(--link-color-100);
   --link-text-underline-color: var(--link-color-600);
   --accent-1: var(--accent-1-400);
-
-  @media (prefers-color-scheme: dark) {
-    --background-color: var(--primary-000);
-    --body-text-color: var(--primary-900);
-    --header-color: var(--primary-1000);
-    --link-text-color: var(--link-color-100);
-    --link-text-underline-color: var(--link-color-600);
-    --accent-1: var(--accent-1-300);
-  }
 }

@@ -27,6 +27,30 @@ body {
     margin-left: 3rem;
     padding: 0 3rem 0 1rem;
   }
+
+  @media (prefers-color-scheme: dark) {
+    --background-color: var(--primary-000);
+    --body-text-color: var(--primary-900);
+    --header-color: var(--primary-1000);
+    --link-text-color: var(--link-color-100);
+    --accent-1: var(--accent-1-300);
+  }
+
+  &.dark {
+    --background-color: var(--primary-000);
+    --body-text-color: var(--primary-900);
+    --header-color: var(--primary-1000);
+    --link-text-color: var(--link-color-100);
+    --accent-1: var(--accent-1-300);
+  }
+
+  &.light {
+    --background-color: var(--primary-970);
+    --body-text-color: var(--primary-100);
+    --header-color: var(--primary-000);
+    --link-text-color: var(--link-color-100);
+    --accent-1: var(--accent-1-400);
+  }
 }
 
 ul li {
