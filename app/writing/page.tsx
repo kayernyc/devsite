@@ -1,6 +1,6 @@
 import { getAllAndById } from '@api/getPosts';
 
-import { AllPostsRender } from '../_components/all-posts-render';
+import { AllPostsByCatRender } from '../_components/all-posts-by-cat-render';
 
 export const metadata = {
   title: 'Posts',
@@ -25,7 +25,7 @@ const Writing = async () => {
         impedit maxime, rem officiis.
       </section>
       <h2>All Writing</h2>
-      <AllPostsRender posts={articles} directory="posts" />;
+      <AllPostsByCatRender posts={articles} directory="posts" />;
     </main>
   );
 };

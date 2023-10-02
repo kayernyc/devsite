@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { formatDate } from '@components/date-tag';
 import { PostListing } from '@customTypes/PostTypes';
 
-export const AllPostsRender = ({
+export const AllPostsByCatRender = ({
   posts,
   directory,
 }: {
