@@ -1,5 +1,7 @@
 import { Client } from 'pg';
+
 import { NextRequest } from 'next/server';
+
 import { TagDBResult } from '@customTypes/editorTypes';
 
 export type PostDataType = {
@@ -39,7 +41,7 @@ const postQuery = (postData: PostDataType) => {
     }
 
     return `INSERT INTO posts(${terms.join(', ')}) values(${values.join(
-      ', '
+      ', ',
     )})`;
   } else {
     const updateValues = [
@@ -50,7 +52,7 @@ const postQuery = (postData: PostDataType) => {
     ];
 
     return `update posts set ${updateValues.join(
-      ', '
+      ', ',
     )} where post_id = '${post_id}'`;
   }
 };
@@ -58,7 +60,7 @@ const postQuery = (postData: PostDataType) => {
 async function addTagJunction(
   client: Client,
   tags: TagDBResult[],
-  postId: string
+  postId: string,
 ) {
   const valueTuples = tags
     .map(({ key_id }) => `('${postId}', ${key_id})`)
@@ -93,7 +95,7 @@ export async function POST(request: NextRequest) {
       JSON.stringify({
         status: 201,
         message: `${body.title} was successfully inserted.`,
-      })
+      }),
     );
   } catch (err) {
     let message = 'Unknown Error';

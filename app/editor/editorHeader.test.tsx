@@ -1,8 +1,10 @@
-import '@testing-library/jest-dom';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
+
+import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import { EditorHeader } from './editorHeader';
 import userEvent from '@testing-library/user-event';
+
+import { EditorHeader } from './editorHeader';
 
 const data = {
   posts: [
@@ -47,8 +49,8 @@ describe('EditorHeader', () => {
     await waitFor(
       async () =>
         await waitFor(() =>
-          expect(screen.getByText(/test 1/i)).toBeInTheDocument()
-        )
+          expect(screen.getByText(/test 1/i)).toBeInTheDocument(),
+        ),
     );
     const option1: HTMLOptionElement = screen.getByText(/test 1/i);
     const option2: HTMLOptionElement = screen.getByText(/test 2/i);
@@ -64,8 +66,8 @@ describe('EditorHeader', () => {
     await waitFor(
       async () =>
         await waitFor(() =>
-          expect(screen.getByText(/test 1/i)).toBeInTheDocument()
-        )
+          expect(screen.getByText(/test 1/i)).toBeInTheDocument(),
+        ),
     );
     const option1: HTMLOptionElement = screen.getByText(/test 1/i);
 
@@ -74,7 +76,7 @@ describe('EditorHeader', () => {
       // Find the select element
       screen.getByRole('listbox'),
       // Find and select the "test 1" option
-      screen.getByRole('option', { name: 'test 1' })
+      screen.getByRole('option', { name: 'test 1' }),
     );
 
     expect(option1.selected).toBe(true);

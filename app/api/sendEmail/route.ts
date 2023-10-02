@@ -34,12 +34,12 @@ export async function POST(request: NextRequest) {
         });
 
       return new Response(
-        JSON.stringify({ status: 201, message: 'Your email has been sent.' })
+        JSON.stringify({ status: 201, message: 'Your email has been sent.' }),
       );
     }
   }
 
   return new Response(
-    JSON.stringify({ status: 501, error: 'An error has occurred.' })
+    JSON.stringify({ status: 501, error: 'An error has occurred.' }),
   );
 }

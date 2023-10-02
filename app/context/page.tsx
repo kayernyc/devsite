@@ -1,5 +1,6 @@
-import { ContactForm } from '@components/contact-elements/contact-form';
 import Link from 'next/link';
+
+import { ContactForm } from '@components/contact-elements/contact-form';
 
 const Context = () => (
   <main>

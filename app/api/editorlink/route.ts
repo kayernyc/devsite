@@ -72,7 +72,7 @@ const getMeta = async (request: NextRequest) => {
         success: 1,
         link: url,
         meta: { ...linkResults },
-      })
+      }),
     );
   }
 
@@ -81,7 +81,7 @@ const getMeta = async (request: NextRequest) => {
       success: 1,
       link: url,
       meta: {},
-    })
+    }),
   );
 };
 

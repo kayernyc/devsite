@@ -1,4 +1,12 @@
 {
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "next/(.*)$",
+    "^@(.*)/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
   "singleQuote": true,
   "tabWidth": 2,
   "useTabs": false

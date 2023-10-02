@@ -1,7 +1,9 @@
+import styled from 'styled-components';
+
 import { Github, Instagram, Linkedin } from '@styled-icons/boxicons-logos';
+
 import { NavLink } from './nav-link';
 import { VisuallyHidden } from './visuallyHidden';
-import styled from 'styled-components';
 
 const StyledNavLink = styled(NavLink)`
   display: inline-block;

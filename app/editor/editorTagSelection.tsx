@@ -7,9 +7,10 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { TagDBResult } from '@customTypes/editorTypes';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
+
+import { TagDBResult } from '@customTypes/editorTypes';
 
 const TagSelectSection = styled.section`
   display: inline-flex;
@@ -52,7 +53,7 @@ export const TagSelector = ({ callback }: TagSelectorProps) => {
   const updateTagSelection: ChangeEventHandler<HTMLSelectElement> = useCallback(
     (evt) => {
       const newSelectedTags: TagDBResult[] = Array.from(
-        evt.target.options
+        evt.target.options,
       ).reduce((acc, { value, selected, dataset: { key = '0', uuid } }) => {
         if (selected) {
           acc.push({
@@ -68,7 +69,7 @@ export const TagSelector = ({ callback }: TagSelectorProps) => {
         callback(newSelectedTags);
       }
     },
-    [callback]
+    [callback],
   );
 
   const createNewTag = useCallback(() => {

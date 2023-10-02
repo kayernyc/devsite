@@ -33,7 +33,7 @@ export interface MermaidBlockData extends BlockData {
 
 export const blockTypeGuard = <T extends BlockData>(
   block: BlockData,
-  typeName: TypeName
+  typeName: TypeName,
 ): block is T => {
   if (
     (block as HeaderBlockData).level !== undefined &&

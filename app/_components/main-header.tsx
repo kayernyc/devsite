@@ -1,6 +1,7 @@
+import styled from 'styled-components';
+
 import { DarkLightMode } from './dark-light-mode';
 import { NavLink } from './nav-link';
-import styled from 'styled-components';
 
 const Header = styled.header`
   display: flex;

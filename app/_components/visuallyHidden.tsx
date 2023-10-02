@@ -12,7 +12,12 @@ const hiddenStyles = {
   border: 0,
 } as React.CSSProperties;
 
-export const VisuallyHidden = ({ children, ...delegated }: {children: React.ReactNode}) => {
+export const VisuallyHidden = ({
+  children,
+  ...delegated
+}: {
+  children: React.ReactNode;
+}) => {
   const [forceShow, setForceShow] = React.useState(false);
 
   React.useEffect(() => {

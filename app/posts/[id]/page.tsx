@@ -1,5 +1,6 @@
-import { PostRender } from './post-render';
 import { getAllAndById } from '@api/getPosts';
+
+import { PostRender } from './post-render';
 
 const { getPostById, getAllPosts } = getAllAndById();
 
@@ -29,9 +30,8 @@ export async function generateMetadata({
 }) {
   const post = await getPostById(id);
   if (post) {
-    const { title } = post;
     return {
-      title,
+      title: post.title,
     };
   }
   return { title: 'bob' };
