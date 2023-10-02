@@ -19,6 +19,7 @@
     "paths": {
       "@api/*": ["./app/api/*"],
       "@constants/*": ["./constants/*"],
+      "@contexts/*": ["./app/_contexts/*"],
       "@components/*": ["./app/_components/*"],
       "@customTypes/*": ["./app/_custom-types/*"],
       "@libs/*": ["./app/_libs/*"],

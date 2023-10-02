@@ -24,7 +24,7 @@ export default async function AllProjects() {
         iste excepturi?
       </section>
       <h2>All Projects</h2>
-      <AllPostsByCatRender posts={projects} directory="projects" />;
+      <AllPostsByCatRender posts={projects} directory="projects" />
     </main>
   );
 }

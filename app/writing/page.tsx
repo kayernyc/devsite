@@ -25,7 +25,7 @@ const Writing = async () => {
         impedit maxime, rem officiis.
       </section>
       <h2>All Writing</h2>
-      <AllPostsByCatRender posts={articles} directory="posts" />;
+      <AllPostsByCatRender posts={articles} directory="posts" />
     </main>
   );
 };

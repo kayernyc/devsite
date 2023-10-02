@@ -6,7 +6,7 @@ import { NavLink } from './nav-link';
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
-  padding-right: 1rem;
+  padding-right: 0.5rem;
   width: 100%;
 `;
 

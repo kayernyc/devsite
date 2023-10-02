@@ -14,16 +14,14 @@ export const AllPostsByCatRender = ({
 }) => {
   return (
     <ul>
-      {posts.map(({ date, url: id, title, post_tags }) => {
-        return (
-          <li key={id}>
-            <Link href={`/${directory}/${id}`}>
-              <h3>{title}</h3>
-              {formatDate(date)}
-            </Link>
-          </li>
-        );
-      })}
+      {posts.map(({ date, url: id, title }) => (
+        <li key={id}>
+          <Link href={`/${directory}/${id}`}>
+            <h3>{title}</h3>
+            {formatDate(date)}
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 };
