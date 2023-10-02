@@ -1,10 +1,10 @@
 import { getAllAndById } from '@api/getPosts';
 
-import { AllProjectsRender } from './all-projects-render';
+import { AllPostsByCatRender } from '../_components/all-posts-by-cat-render';
 
 export const metadata = {
-  title: 'Activity collection',
-  description: 'life',
+  title: 'Projects',
+  description: 'personal projects',
 };
 const { getAllPosts } = getAllAndById();
 
@@ -15,5 +15,16 @@ export default async function AllProjects() {
     return post_tags.includes('project');
   });
 
-  return <AllProjectsRender posts={projects} />;
+  return (
+    <main>
+      <section>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+        obcaecati iure ut sequi. Veritatis tenetur nulla accusamus ab quod
+        maiores eius provident, adipisci esse eaque modi quaerat, repellendus
+        iste excepturi?
+      </section>
+      <h2>All Projects</h2>
+      <AllPostsByCatRender posts={projects} directory="projects" />;
+    </main>
+  );
 }
