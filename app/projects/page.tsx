@@ -9,17 +9,11 @@ export const metadata = {
 const { getAllPosts } = getAllAndById();
 
 export default async function AllProjects() {
-  getAllPosts()
-    .then(async (posts) => {
-      const projects = posts.filter((post) => {
-        const { post_tags } = post;
-        return post_tags.includes('project');
-      });
-      <main>
-        <AllProjectsRender posts={projects} />
-      </main>;
-    })
-    .catch(() => {
-      <main>NOTHING HERE</main>;
-    });
+  const posts = await getAllPosts();
+  const projects = posts.filter((post) => {
+    const { post_tags } = post;
+    return post_tags.includes('project');
+  });
+
+  return <AllProjectsRender posts={projects} />;
 }
