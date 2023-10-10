@@ -41,17 +41,34 @@ const ToggleButton = styled.label<{ darkMode?: boolean }>`
     border-radius: 1rem;
     box-shadow: inset 0.25rem -2px 0px 0px #fff;
     height: var(--slide-small-dim);
+    margin-left: 2px;
     width: var(--slide-small-dim);
     transition: 0.3s;
   }
 
   input:checked ~ .thumb {
-    background-color: orange;
+    --ray: #fdba4f;
+    --beam: #fff0d2;
+    background: repeating-conic-gradient(
+      var(--beam) 0deg,
+      var(--ray) 20deg,
+      var(--beam) 40deg
+    );
+
+    animation: spin 16s infinite linear;
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     box-shadow: 0 0 3px 2px #f9f4a9;
     height: var(--slide-small-dim);
-    transform: translateX(var(--slide-dim));
+    margin-left: var(--slide-dim);
     width: var(--slide-small-dim);
-    /* left: calc(100% - 1.4rem); */
   }
 `;
 
