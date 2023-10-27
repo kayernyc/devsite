@@ -16,13 +16,14 @@ const Context = () => (
       </p>
       <h2>About me:</h2>
       <p>
-        I&apos;m a creative person. Messes, experiments, problems, toys. All
-        solutions in waiting.
+        I&apos;m a creative person. I currently work for a great company helping
+        new and small companies be great.
       </p>
       <p>
         Languages are a hobby. Human languages today. Sporatic dives into
         computer languages. I&apos;m always toying with the idea of writing a
-        language, just to understand computing better.
+        language, just to understand computing better. Or humans better. They
+        end up being similar opportunities.
       </p>
     </section>
     <section>
